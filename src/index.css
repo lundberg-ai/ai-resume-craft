@@ -7,47 +7,6 @@
 
 @layer base {
   :root {
-    --background: 210 50% 98%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 217 91% 60%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 214 32% 91%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 214 32% 91%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 217 91% 60%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
 
@@ -84,6 +43,8 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --radius: 0.5rem;
   }
 }
 
@@ -99,7 +60,7 @@
 
 @layer components {
   .glass-card {
-    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
+    @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-lg;
   }
   
   .resume-container {
@@ -128,5 +89,13 @@
   
   .shimmer {
     @apply animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent bg-[length:500px_100%] relative overflow-hidden before:absolute before:inset-0;
+  }
+
+  .hero-gradient {
+    @apply bg-gradient-to-br from-background via-secondary/50 to-primary/10;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
   }
 }
