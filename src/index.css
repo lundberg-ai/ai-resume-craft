@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
+    --background: 225 35% 5.9%;
     --foreground: 210 40% 98%;
 
     --card: 222.2 84% 4.9%;
@@ -16,7 +16,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%;
+    --primary: 45 100% 50%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -25,15 +25,15 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 45 100% 50%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 217 91% 60%;
+    --ring: 45 100% 50%;
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -43,6 +43,8 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    --resume-primary: var(--primary, #FFD700);
 
     --radius: 0.5rem;
   }
@@ -56,11 +58,31 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
+  
+  ::selection {
+    @apply bg-gold/40 text-white;
+  }
 }
 
 @layer components {
   .glass-card {
     @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-lg;
+  }
+  
+  .luxury-glass {
+    @apply bg-luxury-dark/70 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(255,215,0,0.1)];
+  }
+  
+  .luxury-border {
+    @apply border border-gold/20 shadow-[0_0_15px_rgba(255,215,0,0.15)];
+  }
+  
+  .luxury-input {
+    @apply bg-luxury-dark border border-white/10 focus:border-gold/50 focus:ring-gold/30 transition-all duration-300;
+  }
+  
+  .gold-glow {
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
   }
   
   .resume-container {
@@ -92,10 +114,14 @@
   }
 
   .hero-gradient {
-    @apply bg-gradient-to-br from-background via-secondary/50 to-primary/10;
+    @apply bg-hero-luxury;
   }
 
   .text-glow {
-    text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  }
+  
+  .gold-gradient {
+    @apply bg-gradient-to-r from-gold to-amber-200 bg-clip-text text-transparent;
   }
 }
