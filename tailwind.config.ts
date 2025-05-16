@@ -70,11 +70,11 @@ export default {
 					dark: '#091E42',
 					light: '#E6EFFC',
 				},
-				'ice-blue': '#88CCFF',
-				nordic: {
-					dark: '#171717',
-					gray: '#8E9196',
-					accent: '#88CCFF',
+				'neon-purple': '#9b87f5',
+				brutalist: {
+					dark: '#0F0F0F',
+					gray: '#333333',
+					accent: '#9b87f5',
 					light: '#F1F1F1'
 				}
 			},
@@ -119,11 +119,11 @@ export default {
 				'pulse-glow': {
 					'0%, 100%': {
 						'opacity': 0.8,
-						'box-shadow': '0 0 20px rgba(136, 204, 255, 0.2)'
+						'box-shadow': '0 0 20px rgba(155, 135, 245, 0.2)'
 					},
 					'50%': {
 						'opacity': 1,
-						'box-shadow': '0 0 30px rgba(136, 204, 255, 0.4)'
+						'box-shadow': '0 0 30px rgba(155, 135, 245, 0.4)'
 					}
 				},
 				'float': {
@@ -138,6 +138,14 @@ export default {
 					'0%': { 'background-position': '0% 50%' },
 					'50%': { 'background-position': '100% 50%' },
 					'100%': { 'background-position': '0% 50%' }
+				},
+				'glitch': {
+					'0%': { transform: 'translate(0)' },
+					'20%': { transform: 'translate(-2px, 2px)' },
+					'40%': { transform: 'translate(-2px, -2px)' },
+					'60%': { transform: 'translate(2px, 2px)' },
+					'80%': { transform: 'translate(2px, -2px)' },
+					'100%': { transform: 'translate(0)' }
 				}
 			},
 			animation: {
@@ -148,17 +156,18 @@ export default {
 				'shimmer': 'shimmer 2s infinite linear',
 				'pulse-glow': 'pulse-glow 3s infinite ease-in-out',
 				'float': 'float 6s ease-in-out infinite',
-				'gradient-shift': 'gradient-shift 8s ease infinite'
+				'gradient-shift': 'gradient-shift 8s ease infinite',
+				'glitch': 'glitch 0.5s infinite'
 			},
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				display: ['Poppins', 'sans-serif'],
+				sans: ['Space Grotesk', 'sans-serif'],
+				display: ['Space Grotesk', 'sans-serif'],
 				mono: ['JetBrains Mono', 'monospace'],
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-				'hero-nordic': 'linear-gradient(to bottom right, #171717, #202630, #171717)',
+				'hero-brutalist': 'linear-gradient(to bottom right, #0F0F0F, #161616, #0F0F0F)',
 			}
 		}
 	},

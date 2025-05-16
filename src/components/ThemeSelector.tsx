@@ -47,21 +47,21 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
   ];
   
   const colors = [
-    { id: "#88CCFF", name: "Isblå" },
+    { id: "#9b87f5", name: "Neon Purple" },
     { id: "#36B37E", name: "Smaragd" },
     { id: "#FF5630", name: "Koppar" },
     { id: "#FFAB00", name: "Amber" },
-    { id: "#9b87f5", name: "Lavendel" },
+    { id: "#88CCFF", name: "Isblå" },
     { id: "#FFD700", name: "Guld" },
     { id: "#172B4D", name: "Marinblå" },
     { id: "#505F79", name: "Grå" },
   ];
 
   return (
-    <Card className="nordic-glass border-white/10">
+    <Card className="brutalist-card">
       <CardContent className="pt-6">
         <div className="mb-6">
-          <h3 className="text-lg font-medium mb-4 text-ice-blue">Välj tema</h3>
+          <h3 className="text-lg font-bold mb-4 text-neon-purple uppercase tracking-wider">Välj tema</h3>
           <RadioGroup 
             value={selectedTheme} 
             onValueChange={onThemeChange}
@@ -69,7 +69,11 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
           >
             {themes.map((theme) => (
               <div key={theme.id} className="flex items-center space-x-2">
-                <RadioGroupItem value={theme.id} id={`theme-${theme.id}`} className="border-white/20 text-ice-blue data-[state=checked]:border-ice-blue data-[state=checked]:bg-ice-blue" />
+                <RadioGroupItem 
+                  value={theme.id} 
+                  id={`theme-${theme.id}`} 
+                  className="border-white/20 text-neon-purple data-[state=checked]:border-neon-purple data-[state=checked]:bg-neon-purple"
+                />
                 <Label htmlFor={`theme-${theme.id}`} className="flex flex-col">
                   <span className="font-medium text-white">{theme.name}</span>
                   <span className="text-xs text-muted-foreground">
@@ -81,10 +85,10 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
           </RadioGroup>
         </div>
         
-        <Separator className="my-4 bg-white/10" />
+        <Separator className="my-4 bg-white/20 h-0.5" />
         
         <div>
-          <h3 className="text-lg font-medium mb-4 text-ice-blue">Välj färg</h3>
+          <h3 className="text-lg font-bold mb-4 text-neon-purple uppercase tracking-wider">Välj färg</h3>
           <div className="grid grid-cols-4 gap-3">
             {colors.map((color) => (
               <div 
@@ -94,10 +98,10 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                 <button
                   type="button"
                   onClick={() => onColorChange(color.id)}
-                  className={`w-full aspect-square rounded-md transition-all ${
+                  className={`w-full aspect-square transition-all ${
                     selectedColor === color.id 
-                      ? 'ring-2 ring-ice-blue shadow-[0_0_10px_rgba(136,204,255,0.5)] scale-110' 
-                      : 'hover:scale-105'
+                      ? 'ring-2 ring-white shadow-[0_0_10px_rgba(155,135,245,0.5)] scale-110 border-2 border-white' 
+                      : 'border-2 border-transparent hover:border-white hover:scale-105'
                   }`}
                   style={{ backgroundColor: color.id }}
                   title={color.name}

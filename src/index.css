@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,46 +7,46 @@
 
 @layer base {
   :root {
-    --background: 220 17% 10%;
-    --foreground: 220 10% 98%;
+    --background: 0 0% 6%;
+    --foreground: 0 0% 98%;
 
-    --card: 220 17% 13%;
-    --card-foreground: 220 10% 98%;
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 220 17% 13%;
-    --popover-foreground: 220 10% 98%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 210 100% 77%;
-    --primary-foreground: 220 17% 10%;
+    --primary: 267 59% 74%;
+    --primary-foreground: 0 0% 6%;
 
-    --secondary: 220 17% 17%;
-    --secondary-foreground: 220 10% 98%;
+    --secondary: 0 0% 13%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 220 17% 17%;
-    --muted-foreground: 220 10% 65%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 210 100% 77%;
-    --accent-foreground: 220 17% 10%;
+    --accent: 267 59% 74%;
+    --accent-foreground: 0 0% 6%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 220 17% 17%;
-    --input: 220 17% 17%;
-    --ring: 210 100% 77%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 267 59% 74%;
     
-    --sidebar-background: 220 17% 10%;
-    --sidebar-foreground: 220 10% 98%;
-    --sidebar-primary: 210 100% 77%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 267 59% 74%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 17% 17%;
-    --sidebar-accent-foreground: 220 10% 98%;
-    --sidebar-border: 220 17% 17%;
-    --sidebar-ring: 210 100% 77%;
+    --sidebar-accent: 0 0% 13%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 267 59% 74%;
     
-    --resume-primary: var(--primary, #88CCFF);
+    --resume-primary: var(--primary, #9b87f5);
 
-    --radius: 0.5rem;
+    --radius: 0;
   }
 }
 
@@ -60,33 +60,33 @@
   }
   
   ::selection {
-    @apply bg-ice-blue/40 text-white;
+    @apply bg-neon-purple/40 text-white;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-black/30 backdrop-blur-md border border-white/5 shadow-lg;
+    @apply bg-black/50 border-2 border-white/10 shadow-[5px_5px_0_rgba(155,135,245,0.5)];
   }
   
-  .nordic-glass {
-    @apply bg-nordic-dark/70 backdrop-blur-xl border border-white/5 shadow-[0_4px_30px_rgba(136,204,255,0.1)];
+  .brutalist-card {
+    @apply bg-[#0F0F0F] border-2 border-neon-purple shadow-[5px_5px_0_rgba(155,135,245,0.8)];
   }
   
-  .nordic-border {
-    @apply border border-ice-blue/10 shadow-[0_0_15px_rgba(136,204,255,0.1)];
+  .brutalist-border {
+    @apply border-2 border-neon-purple shadow-[5px_5px_0_rgba(155,135,245,0.5)];
   }
   
-  .nordic-input {
-    @apply bg-nordic-dark border border-white/5 focus:border-ice-blue/30 focus:ring-ice-blue/20 transition-all duration-300;
+  .brutalist-input {
+    @apply bg-[#0F0F0F] border-2 border-white/20 focus:border-neon-purple transition-all duration-300;
   }
   
-  .ice-glow {
-    text-shadow: 0 0 10px rgba(136, 204, 255, 0.4);
+  .neon-glow {
+    text-shadow: 0 0 10px rgba(155, 135, 245, 0.8);
   }
   
   .resume-container {
-    @apply bg-white shadow-lg rounded-lg p-8 max-w-[800px] overflow-auto;
+    @apply bg-white shadow-lg p-8 max-w-[800px] overflow-auto;
   }
   
   .theme-classic .resume-header {
@@ -94,7 +94,7 @@
   }
   
   .theme-modern .resume-header {
-    @apply bg-resume-primary text-white p-4 rounded-t-lg;
+    @apply bg-resume-primary text-white p-4;
   }
   
   .theme-minimal .resume-header {
@@ -102,7 +102,7 @@
   }
   
   .theme-creative .resume-header {
-    @apply bg-gradient-to-r from-resume-primary to-resume-secondary text-white p-4 rounded-lg mb-4;
+    @apply bg-gradient-to-r from-resume-primary to-resume-secondary text-white p-4;
   }
   
   .theme-professional .resume-header {
@@ -114,14 +114,22 @@
   }
 
   .hero-gradient {
-    @apply bg-hero-nordic;
+    @apply bg-hero-brutalist;
   }
 
   .text-glow {
-    text-shadow: 0 0 10px rgba(136, 204, 255, 0.4);
+    text-shadow: 0 0 10px rgba(155, 135, 245, 0.8);
   }
   
-  .ice-gradient {
-    @apply bg-gradient-to-r from-ice-blue to-blue-300 bg-clip-text text-transparent;
+  .neon-gradient {
+    @apply bg-gradient-to-r from-neon-purple to-purple-400 bg-clip-text text-transparent;
+  }
+  
+  .brutalist-grid {
+    @apply grid grid-cols-3 gap-0 border-2 border-white/20;
+  }
+  
+  .brutalist-grid > div {
+    @apply border-2 border-white/20 p-4;
   }
 }
