@@ -7,44 +7,44 @@
 
 @layer base {
   :root {
-    --background: 225 35% 5.9%;
-    --foreground: 210 40% 98%;
+    --background: 220 17% 10%;
+    --foreground: 220 10% 98%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 17% 13%;
+    --card-foreground: 220 10% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 17% 13%;
+    --popover-foreground: 220 10% 98%;
 
-    --primary: 45 100% 50%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 210 100% 77%;
+    --primary-foreground: 220 17% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 17% 17%;
+    --secondary-foreground: 220 10% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 220 17% 17%;
+    --muted-foreground: 220 10% 65%;
 
-    --accent: 45 100% 50%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 100% 77%;
+    --accent-foreground: 220 17% 10%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 45 100% 50%;
+    --border: 220 17% 17%;
+    --input: 220 17% 17%;
+    --ring: 210 100% 77%;
     
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-background: 220 17% 10%;
+    --sidebar-foreground: 220 10% 98%;
+    --sidebar-primary: 210 100% 77%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 220 17% 17%;
+    --sidebar-accent-foreground: 220 10% 98%;
+    --sidebar-border: 220 17% 17%;
+    --sidebar-ring: 210 100% 77%;
     
-    --resume-primary: var(--primary, #FFD700);
+    --resume-primary: var(--primary, #88CCFF);
 
     --radius: 0.5rem;
   }
@@ -60,29 +60,29 @@
   }
   
   ::selection {
-    @apply bg-gold/40 text-white;
+    @apply bg-ice-blue/40 text-white;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-lg;
+    @apply bg-black/30 backdrop-blur-md border border-white/5 shadow-lg;
   }
   
-  .luxury-glass {
-    @apply bg-luxury-dark/70 backdrop-blur-xl border border-white/10 shadow-[0_4px_30px_rgba(255,215,0,0.1)];
+  .nordic-glass {
+    @apply bg-nordic-dark/70 backdrop-blur-xl border border-white/5 shadow-[0_4px_30px_rgba(136,204,255,0.1)];
   }
   
-  .luxury-border {
-    @apply border border-gold/20 shadow-[0_0_15px_rgba(255,215,0,0.15)];
+  .nordic-border {
+    @apply border border-ice-blue/10 shadow-[0_0_15px_rgba(136,204,255,0.1)];
   }
   
-  .luxury-input {
-    @apply bg-luxury-dark border border-white/10 focus:border-gold/50 focus:ring-gold/30 transition-all duration-300;
+  .nordic-input {
+    @apply bg-nordic-dark border border-white/5 focus:border-ice-blue/30 focus:ring-ice-blue/20 transition-all duration-300;
   }
   
-  .gold-glow {
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  .ice-glow {
+    text-shadow: 0 0 10px rgba(136, 204, 255, 0.4);
   }
   
   .resume-container {
@@ -110,18 +110,18 @@
   }
   
   .shimmer {
-    @apply animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent bg-[length:500px_100%] relative overflow-hidden before:absolute before:inset-0;
+    @apply animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent bg-[length:500px_100%] relative overflow-hidden before:absolute before:inset-0;
   }
 
   .hero-gradient {
-    @apply bg-hero-luxury;
+    @apply bg-hero-nordic;
   }
 
   .text-glow {
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    text-shadow: 0 0 10px rgba(136, 204, 255, 0.4);
   }
   
-  .gold-gradient {
-    @apply bg-gradient-to-r from-gold to-amber-200 bg-clip-text text-transparent;
+  .ice-gradient {
+    @apply bg-gradient-to-r from-ice-blue to-blue-300 bg-clip-text text-transparent;
   }
 }

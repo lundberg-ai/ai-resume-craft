@@ -41,7 +41,7 @@ const Index: React.FC = () => {
   const [jobDescription, setJobDescription] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [selectedTheme, setSelectedTheme] = useState<string>("classic");
-  const [selectedColor, setSelectedColor] = useState<string>("#FFD700");
+  const [selectedColor, setSelectedColor] = useState<string>("#88CCFF");
   
   const handleResumeUpload = (data: ResumeData) => {
     setResumeData(data);
@@ -84,13 +84,13 @@ const Index: React.FC = () => {
       <div className="hero-gradient relative overflow-hidden">
         {/* Background particles */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-gold/5 blur-3xl animate-pulse-glow"></div>
-          <div className="absolute bottom-1/4 right-1/3 w-96 h-96 rounded-full bg-gold/5 blur-3xl animate-pulse-glow" style={{ animationDelay: "1s" }}></div>
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-ice-blue/5 blur-3xl animate-pulse-glow"></div>
+          <div className="absolute bottom-1/4 right-1/3 w-96 h-96 rounded-full bg-ice-blue/5 blur-3xl animate-pulse-glow" style={{ animationDelay: "1s" }}></div>
         </div>
         
         <div className="container mx-auto px-6 py-32 md:py-40 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold font-display mb-6 animate-fade-in gold-gradient">
+            <h1 className="text-4xl md:text-6xl font-bold font-display mb-6 animate-fade-in ice-gradient">
               Nästa nivå av CV-skapande
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-slide-in max-w-2xl mx-auto">
@@ -98,7 +98,7 @@ const Index: React.FC = () => {
             </p>
             <Button 
               size="lg" 
-              className="rounded-full text-lg px-8 animate-fade-in bg-gold hover:bg-gold/80 text-black"
+              className="rounded-full text-lg px-8 animate-fade-in bg-ice-blue hover:bg-ice-blue/80 text-black"
               onClick={() => document.getElementById('app-section')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Kom igång <ArrowRight className="ml-2" />
@@ -108,28 +108,28 @@ const Index: React.FC = () => {
       </div>
 
       {/* Features Section */}
-      <div className="py-24 backdrop-blur-sm bg-luxury-dark/80 relative">
-        <div className="absolute inset-0 bg-gradient-conic from-luxury-dark via-luxury-dark/90 to-black/80 opacity-60"></div>
+      <div className="py-24 backdrop-blur-sm bg-nordic-dark/80 relative">
+        <div className="absolute inset-0 bg-gradient-conic from-nordic-dark via-nordic-dark/90 to-black/80 opacity-60"></div>
         <div className="container mx-auto px-6 relative z-10">
-          <h2 className="text-3xl font-bold font-display mb-12 text-center gold-gradient">Framtidens CV-verktyg</h2>
+          <h2 className="text-3xl font-bold font-display mb-12 text-center ice-gradient">Framtidens CV-verktyg</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="luxury-glass p-8 rounded-xl animate-fade-in luxury-border">
-              <div className="h-16 w-16 bg-gold/10 rounded-full mb-6 flex items-center justify-center animate-float">
-                <Upload className="h-8 w-8 text-gold" />
+            <div className="nordic-glass p-8 rounded-xl animate-fade-in nordic-border">
+              <div className="h-16 w-16 bg-ice-blue/10 rounded-full mb-6 flex items-center justify-center animate-float">
+                <Upload className="h-8 w-8 text-ice-blue" />
               </div>
               <h3 className="font-display text-2xl font-bold mb-4 text-white">Ladda upp CV</h3>
               <p className="text-muted-foreground">Ladda upp ditt befintliga CV och låt vår AI analysera och extrahera all relevant information.</p>
             </div>
-            <div className="luxury-glass p-8 rounded-xl animate-fade-in delay-100 luxury-border">
-              <div className="h-16 w-16 bg-gold/10 rounded-full mb-6 flex items-center justify-center animate-float" style={{ animationDelay: "1s" }}>
-                <FileText className="h-8 w-8 text-gold" />
+            <div className="nordic-glass p-8 rounded-xl animate-fade-in delay-100 nordic-border">
+              <div className="h-16 w-16 bg-ice-blue/10 rounded-full mb-6 flex items-center justify-center animate-float" style={{ animationDelay: "1s" }}>
+                <FileText className="h-8 w-8 text-ice-blue" />
               </div>
               <h3 className="font-display text-2xl font-bold mb-4 text-white">Anpassa till jobbet</h3>
               <p className="text-muted-foreground">Klistra in jobbannonsen och låt AI:n skräddarsy ditt CV för att matcha tjänsten perfekt.</p>
             </div>
-            <div className="luxury-glass p-8 rounded-xl animate-fade-in delay-200 luxury-border">
-              <div className="h-16 w-16 bg-gold/10 rounded-full mb-6 flex items-center justify-center animate-float" style={{ animationDelay: "2s" }}>
-                <Eye className="h-8 w-8 text-gold" />
+            <div className="nordic-glass p-8 rounded-xl animate-fade-in delay-200 nordic-border">
+              <div className="h-16 w-16 bg-ice-blue/10 rounded-full mb-6 flex items-center justify-center animate-float" style={{ animationDelay: "2s" }}>
+                <Eye className="h-8 w-8 text-ice-blue" />
               </div>
               <h3 className="font-display text-2xl font-bold mb-4 text-white">Förhandsvisa & redigera</h3>
               <p className="text-muted-foreground">Se resultatet direkt i browsern, redigera och justera innehållet innan du laddar ner.</p>
@@ -140,12 +140,12 @@ const Index: React.FC = () => {
       
       {/* App Section */}
       <div id="app-section" className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-radial from-luxury-dark/50 to-background z-0"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-nordic-dark/50 to-background z-0"></div>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="mb-16 text-center">
             <div className="flex items-center justify-center mb-4">
-              <Sparkles className="h-8 w-8 text-gold mr-4" />
-              <h2 className="text-3xl font-bold font-display gold-gradient">
+              <Sparkles className="h-8 w-8 text-ice-blue mr-4" />
+              <h2 className="text-3xl font-bold font-display ice-gradient">
                 Skapa ditt optimerade CV
               </h2>
             </div>
@@ -155,24 +155,24 @@ const Index: React.FC = () => {
           </div>
           
           <Tabs value={activeStep} onValueChange={setActiveStep} className="w-full">
-            <TabsList className="grid grid-cols-3 w-full max-w-xl mx-auto mb-10 bg-luxury-dark/50 border border-white/10 p-1">
+            <TabsList className="grid grid-cols-3 w-full max-w-xl mx-auto mb-10 bg-nordic-dark/50 border border-white/10 p-1">
               <TabsTrigger 
                 value="upload" 
-                className="data-[state=active]:bg-gold data-[state=active]:text-black"
+                className="data-[state=active]:bg-ice-blue data-[state=active]:text-black"
               >
                 <Upload className="mr-2 h-4 w-4" />
                 Ladda upp CV
               </TabsTrigger>
               <TabsTrigger 
                 value="job" 
-                className="data-[state=active]:bg-gold data-[state=active]:text-black"
+                className="data-[state=active]:bg-ice-blue data-[state=active]:text-black"
               >
                 <FileText className="mr-2 h-4 w-4" />
                 Jobbeskrivning
               </TabsTrigger>
               <TabsTrigger 
                 value="preview" 
-                className="data-[state=active]:bg-gold data-[state=active]:text-black"
+                className="data-[state=active]:bg-ice-blue data-[state=active]:text-black"
               >
                 <Eye className="mr-2 h-4 w-4" />
                 Förhandsgranska
@@ -180,13 +180,13 @@ const Index: React.FC = () => {
             </TabsList>
             
             <TabsContent value="upload" className="animate-fade-in">
-              <div className="luxury-glass p-8 rounded-xl luxury-border">
+              <div className="nordic-glass p-8 rounded-xl nordic-border">
                 <ResumeUploader onUploadComplete={handleResumeUpload} />
               </div>
             </TabsContent>
             
             <TabsContent value="job" className="animate-fade-in">
-              <div className="luxury-glass p-8 rounded-xl luxury-border">
+              <div className="nordic-glass p-8 rounded-xl nordic-border">
                 <JobDescriptionInput 
                   onSubmit={handleJobDescriptionSubmit}
                   isDisabled={!resumeData}
@@ -207,7 +207,7 @@ const Index: React.FC = () => {
                   <div className="mt-8">
                     <Button 
                       onClick={handleResumeDownload} 
-                      className="w-full bg-gold hover:bg-gold/80 text-black"
+                      className="w-full bg-ice-blue hover:bg-ice-blue/80 text-black"
                     >
                       <Download className="mr-2 h-4 w-4" />
                       Ladda ner CV
@@ -231,42 +231,42 @@ const Index: React.FC = () => {
       </div>
 
       {/* Testimonials Section */}
-      <div className="py-24 backdrop-blur-sm bg-luxury-dark/80 relative">
-        <div className="absolute inset-0 bg-gradient-conic from-luxury-dark via-luxury-dark/90 to-black/80 opacity-60"></div>
+      <div className="py-24 backdrop-blur-sm bg-nordic-dark/80 relative">
+        <div className="absolute inset-0 bg-gradient-conic from-nordic-dark via-nordic-dark/90 to-black/80 opacity-60"></div>
         <div className="container mx-auto px-6 relative z-10">
-          <h2 className="text-3xl font-bold font-display mb-16 text-center gold-gradient">Vad våra användare säger</h2>
+          <h2 className="text-3xl font-bold font-display mb-16 text-center ice-gradient">Vad våra användare säger</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="luxury-glass p-8 rounded-xl luxury-border hover:shadow-[0_0_25px_rgba(255,215,0,0.2)] transition-all duration-300 transform hover:-translate-y-1">
+            <div className="nordic-glass p-8 rounded-xl nordic-border hover:shadow-[0_0_25px_rgba(136,204,255,0.2)] transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center mb-6">
-                <div className="w-14 h-14 bg-gold/20 rounded-full flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-luxury-dark flex items-center justify-center text-gold font-bold text-lg">A</div>
+                <div className="w-14 h-14 bg-ice-blue/20 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-nordic-dark flex items-center justify-center text-ice-blue font-bold text-lg">A</div>
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-gold">Anna Andersson</h4>
+                  <h4 className="font-bold text-ice-blue">Anna Andersson</h4>
                   <p className="text-sm text-muted-foreground">UX Designer</p>
                 </div>
               </div>
               <p className="text-muted-foreground">"Jag fick tre intervjuer på en vecka efter att ha använt ResumeCraft för att anpassa mitt CV. Otroligt verktyg!"</p>
             </div>
-            <div className="luxury-glass p-8 rounded-xl luxury-border hover:shadow-[0_0_25px_rgba(255,215,0,0.2)] transition-all duration-300 transform hover:-translate-y-1">
+            <div className="nordic-glass p-8 rounded-xl nordic-border hover:shadow-[0_0_25px_rgba(136,204,255,0.2)] transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center mb-6">
-                <div className="w-14 h-14 bg-gold/20 rounded-full flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-luxury-dark flex items-center justify-center text-gold font-bold text-lg">E</div>
+                <div className="w-14 h-14 bg-ice-blue/20 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-nordic-dark flex items-center justify-center text-ice-blue font-bold text-lg">E</div>
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-gold">Erik Johansson</h4>
+                  <h4 className="font-bold text-ice-blue">Erik Johansson</h4>
                   <p className="text-sm text-muted-foreground">Ekonomichef</p>
                 </div>
               </div>
               <p className="text-muted-foreground">"AI:n förstod exakt vilka nyckelord som behövde lyftas fram för finansjobbet jag sökte. Imponerande!"</p>
             </div>
-            <div className="luxury-glass p-8 rounded-xl luxury-border hover:shadow-[0_0_25px_rgba(255,215,0,0.2)] transition-all duration-300 transform hover:-translate-y-1">
+            <div className="nordic-glass p-8 rounded-xl nordic-border hover:shadow-[0_0_25px_rgba(136,204,255,0.2)] transition-all duration-300 transform hover:-translate-y-1">
               <div className="flex items-center mb-6">
-                <div className="w-14 h-14 bg-gold/20 rounded-full flex items-center justify-center">
-                  <div className="w-12 h-12 rounded-full bg-luxury-dark flex items-center justify-center text-gold font-bold text-lg">M</div>
+                <div className="w-14 h-14 bg-ice-blue/20 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-nordic-dark flex items-center justify-center text-ice-blue font-bold text-lg">M</div>
                 </div>
                 <div className="ml-4">
-                  <h4 className="font-bold text-gold">Maria Lindgren</h4>
+                  <h4 className="font-bold text-ice-blue">Maria Lindgren</h4>
                   <p className="text-sm text-muted-foreground">Mjukvaruutvecklare</p>
                 </div>
               </div>

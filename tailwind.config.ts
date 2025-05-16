@@ -70,11 +70,11 @@ export default {
 					dark: '#091E42',
 					light: '#E6EFFC',
 				},
-				gold: '#FFD700',
-				luxury: {
-					dark: '#050914',
+				'ice-blue': '#88CCFF',
+				nordic: {
+					dark: '#171717',
 					gray: '#8E9196',
-					accent: '#FFD700',
+					accent: '#88CCFF',
 					light: '#F1F1F1'
 				}
 			},
@@ -119,11 +119,11 @@ export default {
 				'pulse-glow': {
 					'0%, 100%': {
 						'opacity': 0.8,
-						'box-shadow': '0 0 20px rgba(255, 215, 0, 0.3)'
+						'box-shadow': '0 0 20px rgba(136, 204, 255, 0.2)'
 					},
 					'50%': {
 						'opacity': 1,
-						'box-shadow': '0 0 30px rgba(255, 215, 0, 0.6)'
+						'box-shadow': '0 0 30px rgba(136, 204, 255, 0.4)'
 					}
 				},
 				'float': {
@@ -158,7 +158,7 @@ export default {
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-				'hero-luxury': 'linear-gradient(to bottom right, #050914, #0F1A36, #050914)',
+				'hero-nordic': 'linear-gradient(to bottom right, #171717, #202630, #171717)',
 			}
 		}
 	},
