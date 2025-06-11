@@ -41,12 +41,12 @@ interface ResumePreviewProps {
 const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpdate }) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editableData, setEditableData] = useState<ResumeData>(data);
-  
+
   const handleSaveEdit = () => {
     onUpdate(editableData);
     setEditMode(false);
   };
-  
+
   const handleDataChange = (field: string, value: string) => {
     setEditableData({
       ...editableData,
@@ -56,13 +56,13 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
 
   const handleExperienceChange = (index: number, field: string, value: string) => {
     if (!editableData.experience) return;
-    
+
     const updatedExperience = [...editableData.experience];
     updatedExperience[index] = {
       ...updatedExperience[index],
       [field]: value
     };
-    
+
     setEditableData({
       ...editableData,
       experience: updatedExperience
@@ -71,13 +71,13 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
 
   const handleEducationChange = (index: number, field: string, value: string) => {
     if (!editableData.education) return;
-    
+
     const updatedEducation = [...editableData.education];
     updatedEducation[index] = {
       ...updatedEducation[index],
       [field]: value
     };
-    
+
     setEditableData({
       ...editableData,
       education: updatedEducation
@@ -86,16 +86,16 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
 
   const handleSkillChange = (index: number, value: string) => {
     if (!editableData.skills) return;
-    
+
     const updatedSkills = [...editableData.skills];
     updatedSkills[index] = value;
-    
+
     setEditableData({
       ...editableData,
       skills: updatedSkills
     });
   };
-  
+
   const getHeaderClass = () => {
     switch (theme) {
       case 'modern':
@@ -110,59 +110,57 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
         return 'theme-classic resume-header';
     }
   };
-  
+
   // Custom style based on selected color
   const customStyle = {
     '--resume-color': color
   } as React.CSSProperties;
-  
+
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-medium">Resume Preview</h3>
-        <div className="flex items-center space-x-2">
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => setEditMode(!editMode)}
-          >
-            {editMode ? (
-              <>
-                <EyeOff className="mr-2 h-4 w-4" /> 
-                View Mode
-              </>
-            ) : (
-              <>
-                <Edit className="mr-2 h-4 w-4" /> 
-                Edit Mode
-              </>
-            )}
-          </Button>
-          {editMode && (
-            <Button 
-              size="sm"
-              onClick={handleSaveEdit}
-            >
-              <Eye className="mr-2 h-4 w-4" /> 
-              Save & Preview
-            </Button>
+    <div className="space-y-4">      <div className="flex justify-between items-center mb-4">
+      <h3 className="text-xl font-medium">CV-förhandsvisning</h3>
+      <div className="flex items-center space-x-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setEditMode(!editMode)}
+        >
+          {editMode ? (
+            <>
+              <EyeOff className="mr-2 h-4 w-4" />
+              Visningsläge
+            </>
+          ) : (
+            <>
+              <Edit className="mr-2 h-4 w-4" />
+              Redigeringsläge
+            </>
           )}
-        </div>
+        </Button>
+        {editMode && (
+          <Button
+            size="sm"
+            onClick={handleSaveEdit}
+          >
+            <Eye className="mr-2 h-4 w-4" />
+            Spara & förhandsgranska
+          </Button>
+        )}
       </div>
-      
+    </div>
+
       <Card className="p-0 overflow-hidden">
         <div className={cn(`resume-container theme-${theme}`)} style={customStyle}>
           {editMode ? (
             // Edit Mode
             <div className="space-y-6">
               <div className={getHeaderClass()}>
-                <div className="space-y-2">
-                  <Input
-                    value={editableData.name || ''}
-                    onChange={(e) => handleDataChange('name', e.target.value)}
-                    placeholder="Your Name"
-                    className="text-2xl font-bold border-none px-0 h-auto"
-                  />
+                <div className="space-y-2">                  <Input
+                  value={editableData.name || ''}
+                  onChange={(e) => handleDataChange('name', e.target.value)}
+                  placeholder="Ditt namn"
+                  className="text-2xl font-bold border-none px-0 h-auto"
+                />
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                     <Input
                       value={editableData.email || ''}
@@ -173,80 +171,78 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
                     <Input
                       value={editableData.phone || ''}
                       onChange={(e) => handleDataChange('phone', e.target.value)}
-                      placeholder="Phone"
+                      placeholder="Telefon"
                       className="border-none px-0 h-auto"
                     />
                     <Input
                       value={editableData.address || ''}
                       onChange={(e) => handleDataChange('address', e.target.value)}
-                      placeholder="Location"
+                      placeholder="Ort"
                       className="border-none px-0 h-auto"
                     />
                   </div>
                 </div>
               </div>
-              
+
               <div>
-                <h2 className="text-lg font-semibold mb-2">Professional Summary</h2>
+                <h2 className="text-lg font-semibold mb-2">Professionell sammanfattning</h2>
                 <Textarea
                   value={editableData.summary || ''}
                   onChange={(e) => handleDataChange('summary', e.target.value)}
-                  placeholder="Write a professional summary"
+                  placeholder="Skriv en professionell sammanfattning"
                   className="min-h-[100px]"
                 />
               </div>
-              
+
               <div>
-                <h2 className="text-lg font-semibold mb-2">Work Experience</h2>
+                <h2 className="text-lg font-semibold mb-2">Arbetslivserfarenhet</h2>
                 {editableData.experience?.map((exp, index) => (
-                  <div key={index} className="mb-4 border p-3 rounded-md">
-                    <div className="grid grid-cols-2 gap-2 mb-2">
-                      <Input
-                        value={exp.title}
-                        onChange={(e) => handleExperienceChange(index, 'title', e.target.value)}
-                        placeholder="Job Title"
-                      />
-                      <Input
-                        value={exp.company}
-                        onChange={(e) => handleExperienceChange(index, 'company', e.target.value)}
-                        placeholder="Company"
-                      />
-                    </div>
+                  <div key={index} className="mb-4 border p-3 rounded-md">                    <div className="grid grid-cols-2 gap-2 mb-2">
+                    <Input
+                      value={exp.title}
+                      onChange={(e) => handleExperienceChange(index, 'title', e.target.value)}
+                      placeholder="Jobbtitel"
+                    />
+                    <Input
+                      value={exp.company}
+                      onChange={(e) => handleExperienceChange(index, 'company', e.target.value)}
+                      placeholder="Företag"
+                    />
+                  </div>
                     <div className="grid grid-cols-3 gap-2 mb-2">
                       <Input
                         value={exp.location}
                         onChange={(e) => handleExperienceChange(index, 'location', e.target.value)}
-                        placeholder="Location"
+                        placeholder="Ort"
                       />
                       <Input
                         value={exp.startDate}
                         onChange={(e) => handleExperienceChange(index, 'startDate', e.target.value)}
-                        placeholder="Start Date"
+                        placeholder="Startdatum"
                       />
                       <Input
                         value={exp.endDate}
                         onChange={(e) => handleExperienceChange(index, 'endDate', e.target.value)}
-                        placeholder="End Date"
+                        placeholder="Slutdatum"
                       />
                     </div>
                     <Textarea
                       value={exp.description}
                       onChange={(e) => handleExperienceChange(index, 'description', e.target.value)}
-                      placeholder="Description"
+                      placeholder="Beskrivning"
                     />
                   </div>
                 ))}
               </div>
-              
               <div>
-                <h2 className="text-lg font-semibold mb-2">Education</h2>
+                <h2 className="text-lg font-semibold mb-2">Utbildning</h2>
                 {editableData.education?.map((edu, index) => (
                   <div key={index} className="mb-4 border p-3 rounded-md">
                     <div className="grid grid-cols-2 gap-2 mb-2">
                       <Input
                         value={edu.degree}
                         onChange={(e) => handleEducationChange(index, 'degree', e.target.value)}
-                        placeholder="Degree"
+                        placeholder="Examen"
                       />
                       <Input
                         value={edu.institution}
@@ -258,32 +254,32 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
                       <Input
                         value={edu.location}
                         onChange={(e) => handleEducationChange(index, 'location', e.target.value)}
-                        placeholder="Location"
+                        placeholder="Ort"
                       />
                       <Input
                         value={edu.startDate}
                         onChange={(e) => handleEducationChange(index, 'startDate', e.target.value)}
-                        placeholder="Start Date"
+                        placeholder="Startdatum"
                       />
                       <Input
                         value={edu.endDate}
                         onChange={(e) => handleEducationChange(index, 'endDate', e.target.value)}
-                        placeholder="End Date"
+                        placeholder="Slutdatum"
                       />
                     </div>
                   </div>
                 ))}
               </div>
-              
+
               <div>
-                <h2 className="text-lg font-semibold mb-2">Skills</h2>
+                <h2 className="text-lg font-semibold mb-2">Färdigheter</h2>
                 <div className="flex flex-wrap gap-2">
                   {editableData.skills?.map((skill, index) => (
                     <Input
                       key={index}
                       value={skill}
                       onChange={(e) => handleSkillChange(index, e.target.value)}
-                      placeholder="Skill"
+                      placeholder="Färdighet"
                       className="w-auto"
                     />
                   ))}
@@ -301,14 +297,14 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
                   {editableData.address && <p>{editableData.address}</p>}
                 </div>
               </div>
-              
+
               {editableData.summary && (
                 <div>
                   <h2 className="text-lg font-semibold mb-2">Professional Summary</h2>
                   <p>{editableData.summary}</p>
                 </div>
               )}
-              
+
               {editableData.experience && editableData.experience.length > 0 && (
                 <div>
                   <h2 className="text-lg font-semibold mb-2">Work Experience</h2>
@@ -327,7 +323,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
                   ))}
                 </div>
               )}
-              
+
               {editableData.education && editableData.education.length > 0 && (
                 <div>
                   <h2 className="text-lg font-semibold mb-2">Education</h2>
@@ -345,14 +341,14 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
                   ))}
                 </div>
               )}
-              
+
               {editableData.skills && editableData.skills.length > 0 && (
                 <div>
                   <h2 className="text-lg font-semibold mb-2">Skills</h2>
                   <div className="flex flex-wrap gap-2">
                     {editableData.skills.map((skill, index) => (
-                      <span 
-                        key={index} 
+                      <span
+                        key={index}
                         className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
                       >
                         {skill}

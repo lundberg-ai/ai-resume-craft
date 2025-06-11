@@ -14,8 +14,8 @@ interface JobDescriptionInputProps {
   isLoading?: boolean;
 }
 
-const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({ 
-  onSubmit, 
+const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({
+  onSubmit,
   isDisabled = false,
   isLoading = false
 }) => {
@@ -31,120 +31,116 @@ const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({
       onSubmit(`Job description from URL: ${jobUrl}`);
     }
   };
-
   const handleExampleClick = () => {
     const exampleDescription = `
-    Senior Frontend Developer
+    Senior Frontendutvecklare
 
-    Responsibilities:
-    - Design, develop, and maintain responsive web applications using React and TypeScript
-    - Collaborate with backend developers to integrate REST APIs
-    - Implement state management solutions using Redux or similar libraries
-    - Write clean, maintainable code with appropriate test coverage
-    - Optimize applications for maximum performance and scalability
-    - Participate in code reviews and contribute to technical discussions
+    Ansvarsområden:
+    - Designa, utveckla och underhålla responsiva webbapplikationer med React och TypeScript
+    - Samarbeta med backend-utvecklare för att integrera REST API:er
+    - Implementera lösningar för state management med Redux eller liknande bibliotek
+    - Skriva ren, underhållbar kod med lämplig testtäckning
+    - Optimera applikationer för maximal prestanda och skalbarhet
+    - Delta i kodgranskningar och bidra till tekniska diskussioner
 
-    Requirements:
-    - 3+ years of experience with React and modern JavaScript
-    - Strong understanding of TypeScript and type systems
-    - Experience with state management libraries (Redux, MobX, or similar)
-    - Familiarity with build tools like Webpack, Vite, or similar
-    - Knowledge of responsive design principles and cross-browser compatibility
-    - Experience with version control systems (Git)
-    - Excellent problem-solving skills and attention to detail
+    Krav:
+    - 3+ års erfarenhet av React och modern JavaScript
+    - Stark förståelse för TypeScript och typsystem
+    - Erfarenhet av state management-bibliotek (Redux, MobX eller liknande)
+    - Förtrogenhet med byggverktyg som Webpack, Vite eller liknande
+    - Kunskap om responsiv design och kompatibilitet mellan webbläsare
+    - Erfarenhet av versionskontrollsystem (Git)
+    - Utmärkta problemlösningsförmågor och uppmärksamhet för detaljer
     `;
-    
+
     setJobDescription(exampleDescription);
     setInputType("text");
   };
 
   return (
     <div className="max-w-3xl mx-auto">
-      <Card>
-        <CardContent className="pt-6">
-          <h3 className="text-xl font-medium mb-4">Enter Job Description</h3>
-          
-          <Tabs value={inputType} onValueChange={setInputType}>
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="text">Paste Text</TabsTrigger>
-              <TabsTrigger value="url">Job URL</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="text" className="animate-fade-in">
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="job-description">Job Description</Label>
-                  <Textarea
-                    id="job-description"
-                    placeholder="Paste the job description here..."
-                    rows={10}
-                    value={jobDescription}
-                    onChange={(e) => setJobDescription(e.target.value)}
-                    disabled={isDisabled}
-                  />
-                </div>
-                
-                <div className="flex justify-between">
-                  <Button 
-                    variant="outline" 
-                    type="button"
-                    onClick={handleExampleClick}
-                    disabled={isDisabled}
-                  >
-                    <FileText className="mr-2 h-4 w-4" />
-                    Use example
-                  </Button>
-                  
-                  <Button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={isDisabled || !jobDescription || isLoading}
-                  >
-                    {isLoading ? "Processing..." : (
-                      <>
-                        Optimize Resume
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </>
-                    )}
-                  </Button>
-                </div>
+      <Card>        <CardContent className="pt-6">
+        <h3 className="text-xl font-medium mb-4">Ange jobbeskrivning</h3>
+
+        <Tabs value={inputType} onValueChange={setInputType}>
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="text">Klistra in text</TabsTrigger>
+            <TabsTrigger value="url">Jobb-URL</TabsTrigger>
+          </TabsList>
+          <TabsContent value="text" className="animate-fade-in">
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="job-description">Jobbeskrivning</Label>
+                <Textarea
+                  id="job-description"
+                  placeholder="Klistra in jobbeskrivningen här..."
+                  rows={10}
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  disabled={isDisabled}
+                />
               </div>
-            </TabsContent>
-            
-            <TabsContent value="url" className="animate-fade-in">
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="job-url">Job Posting URL</Label>
-                  <Input
-                    id="job-url"
-                    placeholder="https://example.com/job-posting"
-                    value={jobUrl}
-                    onChange={(e) => setJobUrl(e.target.value)}
-                    disabled={isDisabled}
-                  />
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Enter a URL to a job posting, and we'll extract the description for you.
-                  </p>
-                </div>
-                
-                <div className="flex justify-end">
-                  <Button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={isDisabled || !jobUrl || isLoading}
-                  >
-                    {isLoading ? "Processing..." : (
-                      <>
-                        <Search className="mr-2 h-4 w-4" />
-                        Fetch & Optimize
-                      </>
-                    )}
-                  </Button>
-                </div>
+
+              <div className="flex justify-between">
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={handleExampleClick}
+                  disabled={isDisabled}
+                >
+                  <FileText className="mr-2 h-4 w-4" />
+                  Använd exempel
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={isDisabled || !jobDescription || isLoading}
+                >
+                  {isLoading ? "Bearbetar..." : (
+                    <>
+                      Optimera CV
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
               </div>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
+            </div>
+          </TabsContent>
+          <TabsContent value="url" className="animate-fade-in">
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="job-url">URL till jobbannonsen</Label>
+                <Input
+                  id="job-url"
+                  placeholder="https://example.com/jobbannonsen"
+                  value={jobUrl}
+                  onChange={(e) => setJobUrl(e.target.value)}
+                  disabled={isDisabled}
+                />
+                <p className="text-sm text-muted-foreground mt-2">
+                  Ange en URL till en jobbannons så extraherar vi beskrivningen åt dig.
+                </p>
+              </div>
+
+              <div className="flex justify-end">
+                <Button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={isDisabled || !jobUrl || isLoading}
+                >
+                  {isLoading ? "Bearbetar..." : (
+                    <>
+                      <Search className="mr-2 h-4 w-4" />
+                      Hämta & optimera
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </CardContent>
       </Card>
     </div>
   );

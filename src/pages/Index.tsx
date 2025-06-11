@@ -4,7 +4,6 @@ import Layout from '@/components/Layout';
 import ResumeUploader from '@/components/ResumeUploader';
 import JobDescriptionInput from '@/components/JobDescriptionInput';
 import ResumePreview from '@/components/ResumePreview';
-import ThemeSelector from '@/components/ThemeSelector';
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
@@ -40,13 +39,11 @@ const Index: React.FC = () => {
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const [jobDescription, setJobDescription] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const [selectedTheme, setSelectedTheme] = useState<string>("classic");
-  const [selectedColor, setSelectedColor] = useState<string>("#9b87f5");
-  
+
   const handleResumeUpload = (data: ResumeData) => {
     setResumeData(data);
     toast({
-      title: "CV uppladdad",
+      title: "CV uppladdat",
       description: "Vi har extraherat information från ditt CV.",
     });
     setActiveStep("job");
@@ -55,7 +52,7 @@ const Index: React.FC = () => {
   const handleJobDescriptionSubmit = (description: string) => {
     setJobDescription(description);
     setIsProcessing(true);
-    
+
     // Mock API call to process resume with AI
     setTimeout(() => {
       setIsProcessing(false);
@@ -88,7 +85,7 @@ const Index: React.FC = () => {
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 border-2 border-black/10 -rotate-12 opacity-10"></div>
           <div className="absolute top-1/2 right-1/3 w-32 h-32 bg-neon-purple/10 rounded-sm"></div>
         </div>
-        
+
         <div className="container mx-auto px-6 py-32 md:py-40 relative z-10">
           <div className="max-w-4xl mx-auto">
             <div className="mb-6 inline-block">
@@ -103,8 +100,8 @@ const Index: React.FC = () => {
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 animate-slide-in max-w-2xl border-l-4 border-neon-purple pl-4">
               Använd AI för att skapa ett CV som sticker ut i rekryteringsprocessen. Anpassa perfekt för varje tjänst du söker.
             </p>
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="rounded-none text-lg px-8 animate-fade-in bg-neon-purple hover:bg-neon-purple/80 text-white font-bold uppercase tracking-wide shadow-[5px_5px_0_rgba(0,0,0,0.5)]"
               onClick={() => document.getElementById('app-section')?.scrollIntoView({ behavior: 'smooth' })}
             >
@@ -113,7 +110,7 @@ const Index: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* App Section - Moved up */}
       <div id="app-section" className="py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -128,73 +125,64 @@ const Index: React.FC = () => {
               Ladda upp ditt befintliga CV, ange jobbeskrivningen, och låt vår AI anpassa ditt CV för att göra dig till den perfekta kandidaten.
             </p>
           </div>
-          
+
           <Tabs value={activeStep} onValueChange={setActiveStep} className="w-full">
             <TabsList className="grid grid-cols-3 w-full max-w-xl mx-auto mb-10 bg-secondary border-2 border-black p-1 rounded-none">
-              <TabsTrigger 
-                value="upload" 
+              <TabsTrigger
+                value="upload"
                 className="data-[state=active]:bg-neon-purple data-[state=active]:text-white rounded-none uppercase font-bold tracking-wide"
               >
                 <Upload className="mr-2 h-4 w-4" />
                 Ladda upp CV
               </TabsTrigger>
-              <TabsTrigger 
-                value="job" 
+              <TabsTrigger
+                value="job"
                 className="data-[state=active]:bg-neon-purple data-[state=active]:text-white rounded-none uppercase font-bold tracking-wide"
               >
                 <FileText className="mr-2 h-4 w-4" />
                 Jobbeskrivning
               </TabsTrigger>
-              <TabsTrigger 
-                value="preview" 
+              <TabsTrigger
+                value="preview"
                 className="data-[state=active]:bg-neon-purple data-[state=active]:text-white rounded-none uppercase font-bold tracking-wide"
               >
                 <Eye className="mr-2 h-4 w-4" />
                 Förhandsgranska
               </TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="upload" className="animate-fade-in">
               <div className="brutalist-card p-8">
                 <ResumeUploader onUploadComplete={handleResumeUpload} />
               </div>
             </TabsContent>
-            
+
             <TabsContent value="job" className="animate-fade-in">
               <div className="brutalist-card p-8">
-                <JobDescriptionInput 
+                <JobDescriptionInput
                   onSubmit={handleJobDescriptionSubmit}
                   isDisabled={!resumeData}
                   isLoading={isProcessing}
                 />
               </div>
             </TabsContent>
-            
             <TabsContent value="preview" className="animate-fade-in">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-1">
-                  <ThemeSelector 
-                    selectedTheme={selectedTheme}
-                    onThemeChange={setSelectedTheme}
-                    selectedColor={selectedColor}
-                    onColorChange={setSelectedColor}
-                  />
-                  <div className="mt-8">
-                    <Button 
-                      onClick={handleResumeDownload} 
-                      className="w-full bg-neon-purple hover:bg-neon-purple/80 text-white uppercase font-bold tracking-wide rounded-none shadow-[5px_5px_0_rgba(0,0,0,0.5)]"
-                    >
-                      <Download className="mr-2 h-4 w-4" />
-                      Ladda ner CV
-                    </Button>
-                  </div>
+              <div className="space-y-8">
+                <div className="flex justify-center">
+                  <Button
+                    onClick={handleResumeDownload}
+                    className="bg-neon-purple hover:bg-neon-purple/80 text-white uppercase font-bold tracking-wide rounded-none shadow-[5px_5px_0_rgba(0,0,0,0.5)] px-8"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Ladda ner CV
+                  </Button>
                 </div>
-                <div className="lg:col-span-2">
+                <div className="max-w-4xl mx-auto">
                   {resumeData && (
-                    <ResumePreview 
-                      data={resumeData} 
-                      theme={selectedTheme}
-                      color={selectedColor}
+                    <ResumePreview
+                      data={resumeData}
+                      theme="classic"
+                      color="#9b87f5"
                       onUpdate={handleUpdateResumeData}
                     />
                   )}
@@ -231,55 +219,7 @@ const Index: React.FC = () => {
                 <Eye className="h-8 w-8 text-neon-purple" />
               </div>
               <h3 className="font-display text-2xl font-bold mb-4 text-foreground uppercase tracking-wide">Förhandsvisa</h3>
-              <p className="text-muted-foreground">Se resultatet direkt i browsern, redigera och justera innehållet innan du laddar ner.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Testimonials Section */}
-      <div className="py-24 bg-background relative border-y-2 border-black">
-        <div className="container mx-auto px-6 relative z-10">
-          <h2 className="text-4xl font-bold font-display mb-16 text-center uppercase tracking-tight">
-            <span className="text-neon-purple">VAD</span> VÅRA ANVÄNDARE SÄGER
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-            <div className="brutalist-card p-8 hover:shadow-[5px_5px_0_rgba(155,135,245,0.8)] transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex items-center mb-6">
-                <div className="w-14 h-14 bg-neon-purple/20 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-background flex items-center justify-center text-neon-purple font-bold text-lg">A</div>
-                </div>
-                <div className="ml-4">
-                  <h4 className="font-bold text-neon-purple uppercase tracking-wider">Anna Andersson</h4>
-                  <p className="text-sm text-muted-foreground">UX Designer</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground">"Jag fick tre intervjuer på en vecka efter att ha använt ResumeCraft för att anpassa mitt CV. Otroligt verktyg!"</p>
-            </div>
-            <div className="brutalist-card p-8 hover:shadow-[5px_5px_0_rgba(155,135,245,0.8)] transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex items-center mb-6">
-                <div className="w-14 h-14 bg-neon-purple/20 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-background flex items-center justify-center text-neon-purple font-bold text-lg">E</div>
-                </div>
-                <div className="ml-4">
-                  <h4 className="font-bold text-neon-purple uppercase tracking-wider">Erik Johansson</h4>
-                  <p className="text-sm text-muted-foreground">Ekonomichef</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground">"AI:n förstod exakt vilka nyckelord som behövde lyftas fram för finansjobbet jag sökte. Imponerande!"</p>
-            </div>
-            <div className="brutalist-card p-8 hover:shadow-[5px_5px_0_rgba(155,135,245,0.8)] transition-all duration-300 transform hover:-translate-y-1">
-              <div className="flex items-center mb-6">
-                <div className="w-14 h-14 bg-neon-purple/20 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-background flex items-center justify-center text-neon-purple font-bold text-lg">M</div>
-                </div>
-                <div className="ml-4">
-                  <h4 className="font-bold text-neon-purple uppercase tracking-wider">Maria Lindgren</h4>
-                  <p className="text-sm text-muted-foreground">Mjukvaruutvecklare</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground">"Snabbt, elegant och effektivt. Mitt CV ser nu ut som något skapat av en professionell designer."</p>
-            </div>
+              <p className="text-muted-foreground">Se resultatet direkt i browsern, redigera och justera innehållet innan du laddar ner.</p>            </div>
           </div>
         </div>
       </div>

@@ -20,8 +20,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="absolute -bottom-1 left-0 w-full h-1 bg-neon-purple"></div>
           </h1>
           <div className="md:hidden">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Meny"
@@ -48,30 +48,19 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <p className="text-muted-foreground">
                 Skapa professionella CV:n anpassade för den svenska arbetsmarknaden med hjälp av AI.
               </p>
-            </div>
-            <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-3 gap-4">
-              <div>
-                <h4 className="font-medium mb-3 uppercase tracking-wide">Tjänster</h4>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li><a href="#" className="hover:text-neon-purple transition-colors">CV Skapare</a></li>
-                  <li><a href="#" className="hover:text-neon-purple transition-colors">Personligt brev</a></li>
-                  <li><a href="#" className="hover:text-neon-purple transition-colors">LinkedIn optimering</a></li>
-                </ul>
-              </div>
+            </div>            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h4 className="font-medium mb-3 uppercase tracking-wide">Företag</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li><a href="#" className="hover:text-neon-purple transition-colors">Om oss</a></li>
-                  <li><a href="#" className="hover:text-neon-purple transition-colors">Karriär</a></li>
                   <li><a href="#" className="hover:text-neon-purple transition-colors">Kontakt</a></li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-medium mb-3 uppercase tracking-wide">Juridiskt</h4>
+                <h4 className="font-medium mb-3 uppercase tracking-wide">Hjälp</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li><a href="#" className="hover:text-neon-purple transition-colors">Integritetspolicy</a></li>
-                  <li><a href="#" className="hover:text-neon-purple transition-colors">Användarvillkor</a></li>
-                  <li><a href="#" className="hover:text-neon-purple transition-colors">Cookies</a></li>
+                  <li><a href="#" className="hover:text-neon-purple transition-colors">Hur det fungerar</a></li>
+                  <li><a href="#" className="hover:text-neon-purple transition-colors">Support</a></li>
                 </ul>
               </div>
             </div>
