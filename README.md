@@ -39,24 +39,27 @@ npm run dev
 
 ### 1. Environment Variables
 
-The app requires a Google Gemini API key for enhanced job description extraction:
+The app has optional Google Gemini AI integration for enhanced job description extraction:
 
-1. **Get a free Gemini API key:**
+1. **Get a free Gemini API key (Optional):**
    - Visit: https://aistudio.google.com/app/apikey
    - Sign up/login with Google account
    - Click "Create API Key" 
    - Copy the generated key
 
-2. **Create your environment file:**
+2. **Create your environment file (Optional):**
    - Create a new file called `.env` in the project root
    - Add this single line: `VITE_GEMINI_API_KEY=your_actual_api_key_here`
    - Replace `your_actual_api_key_here` with your real API key
 
-3. **Without API Key:**
-   - The app still works with basic web scraping
-   - Skip the .env file creation for basic functionality
+3. **The app works without API Key:**
+   - Basic web scraping still extracts content from job posting URLs
+   - Manual text input works perfectly without any API key
+   - AI enhancement is optional for better content filtering
 
 ⚠️ **Security Warning**: Never commit your .env file or share your API key publicly!
+
+**Note**: The app uses Gemini 1.5 Flash (free tier) for AI features. If you encounter API errors, the app automatically falls back to basic extraction.
 
 ### 2. Development Setup
 
