@@ -26,13 +26,23 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
   }, []);
 
-  // Show character count feedback when substantial text is entered manually
+  // Show dynamic character count feedback when text is entered manually
   useEffect(() => {
-    if (textContent.trim().length > 50 && activeTab === "text") {
-      // Only log substantial text inputs to avoid spam
-      console.log('Manual text input:', textContent);
+    if (textContent.trim().length > 0 && activeTab === "text") {
+      // Debounce the toast to avoid spam - only show after user stops typing
+      const timeoutId = setTimeout(() => {
+        const wordCount = textContent.trim().split(/\s+/).filter(word => word.length > 0).length;
+        toast({
+          title: "Text inmatad",
+          description: `${textContent.length} tecken, ${wordCount} ord extraherade`,
+          duration: 2000,
+        });
+        console.log('Manual text input:', textContent);
+      }, 1000); // Wait 1 second after user stops typing
+
+      return () => clearTimeout(timeoutId);
     }
-  }, [textContent, activeTab]);
+  }, [textContent, activeTab, toast]);
 
   const removeFile = () => {
     setFile(null);
@@ -226,66 +236,66 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
         <TabsContent value="file">
           <Card className="border border-dashed border-input">
             <CardContent className="pt-6">              <div
-                className={`flex flex-col items-center justify-center p-12 transition-colors rounded-lg relative ${isDragging ? "bg-primary/10" : "bg-secondary/50"
-                  }`}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-              >
-                {file && (
-                  <Button
-                    type="button"
-                    onClick={removeFile}
-                    className="absolute top-3 right-3 h-8 w-8 p-0 bg-red-500 hover:bg-red-600 text-white rounded-full"
-                    title="Ta bort fil"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
+              className={`flex flex-col items-center justify-center p-12 transition-colors rounded-lg relative ${isDragging ? "bg-primary/10" : "bg-secondary/50"
+                }`}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
+              {file && (
+                <Button
+                  type="button"
+                  onClick={removeFile}
+                  className="absolute top-3 right-3 h-8 w-8 p-0 bg-red-500 hover:bg-red-600 text-white rounded-full"
+                  title="Ta bort fil"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+
+              <div className="w-16 h-16 mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+                {file ? (
+                  <FileText className="w-8 h-8 text-primary" />
+                ) : (
+                  <Upload className="w-8 h-8 text-primary" />
                 )}
-                
-                <div className="w-16 h-16 mb-4 rounded-full bg-primary/10 flex items-center justify-center">
-                  {file ? (
-                    <FileText className="w-8 h-8 text-primary" />
-                  ) : (
-                    <Upload className="w-8 h-8 text-primary" />
-                  )}
-                </div>
-                <h3 className="text-xl font-medium mb-2">
-                  {file ? file.name : "Ladda upp ditt CV"}
-                </h3>
-
-                <p className="text-muted-foreground text-center mb-6">
-                  {file
-                    ? `${(file.size / 1024 / 1024).toFixed(2)} MB · ${file.type}`
-                    : "Dra och släpp din CV-fil här, eller klicka för att bläddra bland filer"}
-                </p>
-
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileInputChange}
-                  accept=".pdf,.doc,.docx"
-                  className="hidden"
-                />
-
-                <div className="flex gap-3">
-                  <Button
-                    type="button"
-                    onClick={() => file ? handleProcessResume() : fileInputRef.current?.click()}
-                    disabled={isProcessing}
-                    className="min-w-[180px] bg-neon-purple hover:bg-neon-purple/80 text-white rounded-none uppercase font-bold tracking-wide shadow-[5px_5px_0_rgba(0,0,0,0.5)]"
-                  >
-                    {isProcessing ? (
-                      <>Bearbetar...</>
-                    ) : file ? (
-                      <>Bearbeta CV</>
-                    ) : (
-                      <>Välj fil</>
-                    )}
-                  </Button>
-                </div>
               </div>
+              <h3 className="text-xl font-medium mb-2">
+                {file ? file.name : "Ladda upp ditt CV"}
+              </h3>
+
+              <p className="text-muted-foreground text-center mb-6">
+                {file
+                  ? `${(file.size / 1024 / 1024).toFixed(2)} MB · ${file.type}`
+                  : "Dra och släpp din CV-fil här, eller klicka för att bläddra bland filer"}
+              </p>
+
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileInputChange}
+                accept=".pdf,.doc,.docx"
+                className="hidden"
+              />
+
+              <div className="flex gap-3">
+                <Button
+                  type="button"
+                  onClick={() => file ? handleProcessResume() : fileInputRef.current?.click()}
+                  disabled={isProcessing}
+                  className="min-w-[180px] bg-neon-purple hover:bg-neon-purple/80 text-white rounded-none uppercase font-bold tracking-wide shadow-[5px_5px_0_rgba(0,0,0,0.5)]"
+                >
+                  {isProcessing ? (
+                    <>Bearbetar...</>
+                  ) : file ? (
+                    <>Bearbeta CV</>
+                  ) : (
+                    <>Välj fil</>
+                  )}
+                </Button>
+              </div>
+            </div>
             </CardContent>
           </Card>
         </TabsContent>
@@ -310,7 +320,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
                   />
                   {textContent.length > 0 && (
                     <p className="text-sm text-muted-foreground mt-2">
-                      {textContent.length} tecken inmatade
+                      {textContent.length} tecken, {textContent.trim().split(/\s+/).filter(word => word.length > 0).length} ord inmatade
                     </p>
                   )}
                 </div>
