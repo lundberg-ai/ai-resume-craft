@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Upload, FileText, Search, Type } from 'lucide-react';
+import { Upload, FileText, Search, Type, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -20,13 +20,32 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [textContent, setTextContent] = useState<string>("");
   const [extractedPDFText, setExtractedPDFText] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<string>("file"); const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Configure PDF.js worker
+  const [activeTab, setActiveTab] = useState<string>("file"); const fileInputRef = useRef<HTMLInputElement>(null);  // Configure PDF.js worker
   useEffect(() => {
     // Use the worker from the installed package
     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
   }, []);
+
+  // Show character count feedback when substantial text is entered manually
+  useEffect(() => {
+    if (textContent.trim().length > 50 && activeTab === "text") {
+      // Only log substantial text inputs to avoid spam
+      console.log('Manual text input:', textContent);
+    }
+  }, [textContent, activeTab]);
+
+  const removeFile = () => {
+    setFile(null);
+    setExtractedPDFText("");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    toast({
+      title: "Fil borttagen",
+      description: "Du kan nu ladda upp en ny fil",
+      duration: 1500,
+    });
+  };
 
   const handleDragEnter = (e: React.DragEvent) => {
     e.preventDefault();
@@ -206,15 +225,25 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
 
         <TabsContent value="file">
           <Card className="border border-dashed border-input">
-            <CardContent className="pt-6">
-              <div
-                className={`flex flex-col items-center justify-center p-12 transition-colors rounded-lg ${isDragging ? "bg-primary/10" : "bg-secondary/50"
+            <CardContent className="pt-6">              <div
+                className={`flex flex-col items-center justify-center p-12 transition-colors rounded-lg relative ${isDragging ? "bg-primary/10" : "bg-secondary/50"
                   }`}
                 onDragEnter={handleDragEnter}
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
               >
+                {file && (
+                  <Button
+                    type="button"
+                    onClick={removeFile}
+                    className="absolute top-3 right-3 h-8 w-8 p-0 bg-red-500 hover:bg-red-600 text-white rounded-full"
+                    title="Ta bort fil"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+                
                 <div className="w-16 h-16 mb-4 rounded-full bg-primary/10 flex items-center justify-center">
                   {file ? (
                     <FileText className="w-8 h-8 text-primary" />
@@ -240,18 +269,22 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
                   className="hidden"
                 />
 
-                <Button
-                  type="button"
-                  onClick={() => file ? handleProcessResume() : fileInputRef.current?.click()}
-                  disabled={isProcessing}
-                  className="min-w-[180px] bg-neon-purple hover:bg-neon-purple/80 text-white rounded-none uppercase font-bold tracking-wide shadow-[5px_5px_0_rgba(0,0,0,0.5)]"                >
-                  {isProcessing ? (
-                    <>Bearbetar...</>
-                  ) : file ? (
-                    <>Bearbeta CV</>
-                  ) : (
-                    <>Välj fil</>
-                  )}                </Button>
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    onClick={() => file ? handleProcessResume() : fileInputRef.current?.click()}
+                    disabled={isProcessing}
+                    className="min-w-[180px] bg-neon-purple hover:bg-neon-purple/80 text-white rounded-none uppercase font-bold tracking-wide shadow-[5px_5px_0_rgba(0,0,0,0.5)]"
+                  >
+                    {isProcessing ? (
+                      <>Bearbetar...</>
+                    ) : file ? (
+                      <>Bearbeta CV</>
+                    ) : (
+                      <>Välj fil</>
+                    )}
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -268,14 +301,19 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
                   <p className="text-muted-foreground mb-6">
                     Kopiera och klistra in ditt CV-innehåll direkt i textområdet nedan
                   </p>
+                </div>                <div>
+                  <Textarea
+                    placeholder="Klistra in ditt CV-innehåll här..."
+                    value={textContent}
+                    onChange={(e) => setTextContent(e.target.value)}
+                    className="min-h-[300px] brutalist-input resize-none"
+                  />
+                  {textContent.length > 0 && (
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {textContent.length} tecken inmatade
+                    </p>
+                  )}
                 </div>
-
-                <Textarea
-                  placeholder="Klistra in ditt CV-innehåll här..."
-                  value={textContent}
-                  onChange={(e) => setTextContent(e.target.value)}
-                  className="min-h-[300px] brutalist-input resize-none"
-                />
 
                 <Button
                   type="button"
