@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -72,10 +71,10 @@ export default {
 				},
 				'neon-purple': '#9b87f5',
 				brutalist: {
-					dark: '#0F0F0F',
-					gray: '#333333',
+					dark: '#FFFFFF',
+					gray: '#F0F0F0',
 					accent: '#9b87f5',
-					light: '#F1F1F1'
+					light: '#0F0F0F'
 				}
 			},
 			borderRadius: {
@@ -167,7 +166,7 @@ export default {
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-				'hero-brutalist': 'linear-gradient(to bottom right, #0F0F0F, #161616, #0F0F0F)',
+				'hero-brutalist': 'linear-gradient(to bottom right, #FFFFFF, #F8F8F8, #FFFFFF)',
 			}
 		}
 	},

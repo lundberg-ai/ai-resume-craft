@@ -72,10 +72,10 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                 <RadioGroupItem 
                   value={theme.id} 
                   id={`theme-${theme.id}`} 
-                  className="border-white/20 text-neon-purple data-[state=checked]:border-neon-purple data-[state=checked]:bg-neon-purple"
+                  className="border-black data-[state=checked]:border-neon-purple data-[state=checked]:bg-neon-purple"
                 />
                 <Label htmlFor={`theme-${theme.id}`} className="flex flex-col">
-                  <span className="font-medium text-white">{theme.name}</span>
+                  <span className="font-medium text-foreground">{theme.name}</span>
                   <span className="text-xs text-muted-foreground">
                     {theme.description}
                   </span>
@@ -85,7 +85,7 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
           </RadioGroup>
         </div>
         
-        <Separator className="my-4 bg-white/20 h-0.5" />
+        <Separator className="my-4 bg-black h-0.5" />
         
         <div>
           <h3 className="text-lg font-bold mb-4 text-neon-purple uppercase tracking-wider">Välj färg</h3>
@@ -100,8 +100,8 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                   onClick={() => onColorChange(color.id)}
                   className={`w-full aspect-square transition-all ${
                     selectedColor === color.id 
-                      ? 'ring-2 ring-white shadow-[0_0_10px_rgba(155,135,245,0.5)] scale-110 border-2 border-white' 
-                      : 'border-2 border-transparent hover:border-white hover:scale-105'
+                      ? 'ring-2 ring-black shadow-[0_0_10px_rgba(155,135,245,0.5)] scale-110 border-2 border-black' 
+                      : 'border-2 border-transparent hover:border-black hover:scale-105'
                   }`}
                   style={{ backgroundColor: color.id }}
                   title={color.name}
