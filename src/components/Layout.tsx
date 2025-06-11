@@ -16,7 +16,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <header className="border-b-2 border-black sticky top-0 z-10 bg-background">
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <h1 className="text-3xl md:text-4xl font-bold font-display tracking-tight text-foreground relative">
-            <span className="text-neon-purple">Resume</span>Craft
+            <span className="text-neon-purple">CV</span>Skaparen
             <div className="absolute -bottom-1 left-0 w-full h-1 bg-neon-purple"></div>
           </h1>
           <div className="md:hidden">
@@ -42,7 +42,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-display font-bold mb-4 text-neon-purple uppercase tracking-wide">ResumeCraft</h3>
+              <h3 className="text-xl font-display font-bold mb-4 text-neon-purple uppercase tracking-wide">CVSkaparen</h3>
               <p className="text-muted-foreground">
                 Skapa professionella CV:n anpassade för den svenska arbetsmarknaden med hjälp av AI.
               </p>
@@ -57,7 +57,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
           </div>
           <div className="border-t-2 border-black mt-8 pt-6 text-center text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} ResumeCraft. Alla rättigheter förbehållna.
+            &copy; {new Date().getFullYear()} CVSkaparen. Alla rättigheter förbehållna.
           </div>
         </div>
       </footer>
