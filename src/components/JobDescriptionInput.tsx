@@ -22,7 +22,6 @@ const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({
   const [inputType, setInputType] = useState<string>("text");
   const [jobDescription, setJobDescription] = useState<string>("");
   const [jobUrl, setJobUrl] = useState<string>("");
-
   const handleSubmit = () => {
     if (inputType === "text" && jobDescription) {
       onSubmit(jobDescription);
@@ -30,31 +29,6 @@ const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({
       // In a real implementation, you would fetch the job description from the URL
       onSubmit(`Job description from URL: ${jobUrl}`);
     }
-  };
-  const handleExampleClick = () => {
-    const exampleDescription = `
-    Senior Frontendutvecklare
-
-    Ansvarsområden:
-    - Designa, utveckla och underhålla responsiva webbapplikationer med React och TypeScript
-    - Samarbeta med backend-utvecklare för att integrera REST API:er
-    - Implementera lösningar för state management med Redux eller liknande bibliotek
-    - Skriva ren, underhållbar kod med lämplig testtäckning
-    - Optimera applikationer för maximal prestanda och skalbarhet
-    - Delta i kodgranskningar och bidra till tekniska diskussioner
-
-    Krav:
-    - 3+ års erfarenhet av React och modern JavaScript
-    - Stark förståelse för TypeScript och typsystem
-    - Erfarenhet av state management-bibliotek (Redux, MobX eller liknande)
-    - Förtrogenhet med byggverktyg som Webpack, Vite eller liknande
-    - Kunskap om responsiv design och kompatibilitet mellan webbläsare
-    - Erfarenhet av versionskontrollsystem (Git)
-    - Utmärkta problemlösningsförmågor och uppmärksamhet för detaljer
-    `;
-
-    setJobDescription(exampleDescription);
-    setInputType("text");
   };
 
   return (
@@ -78,20 +52,9 @@ const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
                   disabled={isDisabled}
-                />
-              </div>
+                />              </div>
 
-              <div className="flex justify-between">
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={handleExampleClick}
-                  disabled={isDisabled}
-                >
-                  <FileText className="mr-2 h-4 w-4" />
-                  Använd exempel
-                </Button>
-
+              <div className="flex justify-end">
                 <Button
                   type="button"
                   onClick={handleSubmit}
