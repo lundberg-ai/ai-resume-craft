@@ -1,5 +1,5 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Upload, FileText, Search, Type } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from "@/hooks/use-toast";
+import * as pdfjsLib from 'pdfjs-dist';
 
 interface ResumeUploaderProps {
   onUploadComplete: (data: any) => void;
@@ -18,8 +19,14 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [textContent, setTextContent] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<string>("file");
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [extractedPDFText, setExtractedPDFText] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<string>("file"); const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Configure PDF.js worker
+  useEffect(() => {
+    // Use the worker from the installed package
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
+  }, []);
 
   const handleDragEnter = (e: React.DragEvent) => {
     e.preventDefault();
@@ -53,8 +60,7 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
     if (e.target.files && e.target.files.length > 0) {
       handleFileChange(e.target.files[0]);
     }
-  };
-  const handleFileChange = (selectedFile: File) => {
+  }; const handleFileChange = async (selectedFile: File) => {
     const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
     if (!allowedTypes.includes(selectedFile.type)) {
@@ -67,6 +73,61 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
     }
 
     setFile(selectedFile);
+    // Extract text from PDF
+    if (selectedFile.type === 'application/pdf') {
+      try {
+        const extractedText = await extractTextFromPDF(selectedFile);
+        setExtractedPDFText(extractedText);
+        console.log('Extracted PDF text:', extractedText);
+
+        // Show quick feedback to user
+        toast({
+          title: "PDF-text extraherad",
+          description: `Extraherade ${extractedText.length} tecken från PDF:en`,
+          duration: 2000,
+        });
+      } catch (error) {
+        console.error('Error extracting text from PDF:', error);
+        toast({
+          title: "Fel vid textextrahering",
+          description: "Kunde inte extrahera text från PDF:en",
+          variant: "destructive"
+        });
+      }
+    }
+  };
+  const extractTextFromPDF = async (file: File): Promise<string> => {
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const typedArray = new Uint8Array(arrayBuffer);
+
+      // Load the PDF document
+      const loadingTask = pdfjsLib.getDocument({
+        data: typedArray,
+        cMapUrl: 'https://unpkg.com/pdfjs-dist@3.11.174/cmaps/',
+        cMapPacked: true,
+      });
+
+      const pdf = await loadingTask.promise;
+      let fullText = '';
+
+      // Extract text from each page
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent();
+
+        const pageText = textContent.items
+          .map((item: any) => ('str' in item ? item.str : ''))
+          .join(' ');
+
+        fullText += pageText + '\n\n';
+      }
+
+      return fullText.trim();
+    } catch (error) {
+      console.error('Error extracting text from PDF:', error);
+      throw new Error('Kunde inte extrahera text från PDF:en');
+    }
   };
 
   const handleProcessResume = () => {
