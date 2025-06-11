@@ -183,13 +183,12 @@ const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({
       // Try each proxy until one works
       for (const proxyUrl of corsProxies) {
         try {
-          console.log(`Trying proxy: ${proxyUrl.split('?')[0]}`);
-
-          const response = await fetch(proxyUrl, {
+          console.log(`Trying proxy: ${proxyUrl.split('?')[0]}`); const response = await fetch(proxyUrl, {
             method: 'GET',
             headers: {
               'Accept': 'application/json, text/plain, */*',
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+              'Cookie': 'cookie-consent=accepted; gdpr-consent=true; cookies-accepted=true' // Try to bypass cookie consent
             }
           });
 
@@ -222,24 +221,76 @@ const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({
 
       if (!htmlContent || htmlContent.length < 100) {
         throw new Error('Alla CORS-proxies misslyckades. Försök med en annan URL eller klistra in texten manuellt.');
-      }
-
-      // Extract text content from HTML
+      }      // Extract text content from HTML with better content detection
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlContent, 'text/html');
 
-      // Remove script and style elements
-      const scripts = doc.querySelectorAll('script, style, nav, header, footer, aside');
-      scripts.forEach(el => el.remove());
+      // Remove unwanted elements more aggressively
+      const unwantedSelectors = [
+        'script', 'style', 'nav', 'header', 'footer', 'aside',
+        '.cookie-banner', '.cookie-consent', '.gdpr-banner',
+        '[id*="cookie"]', '[class*="cookie"]', '[id*="consent"]', '[class*="consent"]',
+        '[id*="gdpr"]', '[class*="gdpr"]', '.privacy-notice'
+      ];
 
-      // Get text content
-      const textContent = doc.body?.textContent || doc.textContent || '';      // Clean up the text
-      const cleanedText = textContent
+      unwantedSelectors.forEach(selector => {
+        const elements = doc.querySelectorAll(selector);
+        elements.forEach(el => el.remove());
+      });
+
+      // Try to find job content in specific containers first
+      const jobSelectors = [
+        'main', '.main-content', '.job-description', '.job-details',
+        '.content', '.article', '.post', '.vacancy', '.position',
+        '[class*="job"]', '[id*="job"]', '[class*="vacancy"]', '[id*="vacancy"]'
+      ];
+
+      let jobContent = '';
+      for (const selector of jobSelectors) {
+        const element = doc.querySelector(selector);
+        if (element) {
+          // Remove any remaining cookie elements within job content
+          const cookieElements = element.querySelectorAll('[class*="cookie"], [id*="cookie"], [class*="consent"], [id*="consent"]');
+          cookieElements.forEach(el => el.remove());
+
+          const text = element.textContent || '';
+          if (text.length > 200 && !text.toLowerCase().includes('kakor') && !text.toLowerCase().includes('cookies')) {
+            jobContent = text;
+            console.log(`Found job content using selector: ${selector}`);
+            break;
+          }
+        }
+      }
+
+      // If no specific job content found, use body but filter aggressively
+      if (!jobContent) {
+        jobContent = doc.body?.textContent || doc.textContent || '';
+      }
+
+      // Clean up the text more aggressively
+      const cleanedText = jobContent
         .replace(/\s+/g, ' ')
         .replace(/\n+/g, ' ')
         .replace(/\t+/g, ' ')
         .trim()
-        .substring(0, 8000); // Increase limit for better content capture
+        .substring(0, 8000);
+
+      // More aggressive cookie content detection
+      const cookiePatterns = [
+        /på.*använder vi kakor/i,
+        /vi använder.*kakor/i,
+        /cookie.*webbplatsen/i,
+        /jag godkänner.*kakor/i,
+        /nödvändiga kakor/i,
+        /alla kakor/i,
+        /så här använder.*kakor/i
+      ];
+
+      const isCookiePage = cookiePatterns.some(pattern => pattern.test(cleanedText)) && cleanedText.length < 500;
+
+      if (isCookiePage) {
+        throw new Error('Webbsidan visar endast cookie-meddelande. Försök med en direktlänk till jobbannonsen eller klistra in texten manuellt.');
+      }
 
       // Validate content quality - detect cookie pages, error pages, etc.
       const isValidJobContent = validateJobContent(cleanedText);
