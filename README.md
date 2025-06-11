@@ -1,8 +1,86 @@
-# Welcome to your Lovable project
+# CVSkaparen - Swedish CV Generation App
+
+A Swedish CV generation application with PDF text extraction, job description analysis, and AI-powered optimization.
+
+## Features
+
+- **PDF Text Extraction**: Upload PDF CVs and automatically extract text content
+- **Manual Text Input**: Paste CV content directly with live character/word counting
+- **Job Description Analysis**: 
+  - Manual text input with feedback
+  - Website URL extraction with AI-powered content parsing
+- **Swedish Interface**: All text and feedback in Swedish
+- **Clean Design**: Simplified, user-friendly interface
 
 ## Project info
 
 **URL**: https://lovable.dev/projects/85f2912e-de60-49be-850f-f4977cb1d103
+
+## Quick Start
+
+```sh
+# Clone the repository
+git clone <YOUR_GIT_URL>
+
+# Navigate to project directory
+cd crafted-resume-boost
+
+# Install dependencies
+npm install
+
+# Create environment file (see Setup section below)
+# Create a .env file and add your API key
+
+# Start development server
+npm run dev
+```
+
+## Setup Instructions
+
+### 1. Environment Variables
+
+The app requires a Google Gemini API key for enhanced job description extraction:
+
+1. **Get a free Gemini API key:**
+   - Visit: https://aistudio.google.com/app/apikey
+   - Sign up/login with Google account
+   - Click "Create API Key" 
+   - Copy the generated key
+
+2. **Create your environment file:**
+   - Create a new file called `.env` in the project root
+   - Add this single line: `VITE_GEMINI_API_KEY=your_actual_api_key_here`
+   - Replace `your_actual_api_key_here` with your real API key
+
+3. **Without API Key:**
+   - The app still works with basic web scraping
+   - Skip the .env file creation for basic functionality
+
+⚠️ **Security Warning**: Never commit your .env file or share your API key publicly!
+
+### 2. Development Setup
+
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Follow these steps:
+
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
+
+# Step 2: Navigate to the project directory.
+cd crafted-resume-boost
+
+# Step 3: Install the necessary dependencies.
+npm i
+
+# Step 4: Create environment file and add your Gemini API key
+# Create .env file: echo 'VITE_GEMINI_API_KEY=your_actual_api_key_here' > .env
+# (Replace your_actual_api_key_here with your real API key)
+
+# Step 5: Start the development server with auto-reloading and an instant preview.
+npm run dev
+```
 
 ## How can I edit this code?
 
@@ -17,24 +95,6 @@ Changes made via Lovable will be committed automatically to this repo.
 **Use your preferred IDE**
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
 
 **Edit a file directly in GitHub**
 
@@ -54,11 +114,32 @@ npm run dev
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Frontend Framework**: React with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS + shadcn-ui components
+- **PDF Processing**: pdfjs-dist for client-side PDF text extraction
+- **AI Integration**: Google Gemini API for intelligent content extraction
+- **Web Scraping**: CORS proxy for website content extraction
+
+## App Features
+
+### CV Upload & Processing
+- **PDF Upload**: Drag & drop or click to upload PDF files
+- **Text Extraction**: Automatic PDF text extraction with character/word count
+- **Manual Input**: Direct text paste with live feedback
+- **File Management**: Remove uploaded files with X button
+
+### Job Description Analysis
+- **Manual Input**: Paste job descriptions with live character/word counting
+- **Website Extraction**: Extract job descriptions from URLs
+- **AI Enhancement**: Smart content filtering using Gemini AI
+- **Review & Edit**: Preview extracted content before processing
+
+### User Experience
+- **Swedish Interface**: All text and feedback in Swedish
+- **Real-time Feedback**: Toast notifications and live counters
+- **Console Logging**: Debug information logged to browser console
+- **Error Handling**: Clear error messages in Swedish
 
 ## How can I deploy this project?
 
