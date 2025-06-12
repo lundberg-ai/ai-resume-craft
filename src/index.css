@@ -176,7 +176,8 @@
   .resume-container h1 {
     font-size: 24pt;
     font-weight: bold;
-    margin-bottom: 8pt;
+    margin-bottom: 16pt;
+    /* Increased from 8pt to 16pt for proper spacing between name and contact info */
     color: #1a1a1a;
   }
 
@@ -234,7 +235,7 @@
   }
 
   .theme-classic .resume-header {
-    @apply border-b border-gray-200 pb-4 mb-4;
+    @apply pb-4 mb-4;
   }
 
   .theme-modern .resume-header {
@@ -242,7 +243,7 @@
   }
 
   .theme-minimal .resume-header {
-    @apply border-l-4 border-resume-primary pl-4 mb-4;
+    @apply pl-4 mb-4;
   }
 
   .theme-creative .resume-header {
@@ -250,7 +251,7 @@
   }
 
   .theme-professional .resume-header {
-    @apply border-b-2 border-resume-dark pb-4 mb-4;
+    @apply pb-4 mb-4;
   }
 
   .shimmer {

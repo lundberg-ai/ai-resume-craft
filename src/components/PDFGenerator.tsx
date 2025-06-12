@@ -16,14 +16,13 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		marginBottom: 20,
-		borderBottomWidth: 1,
-		borderBottomColor: '#E0E0E0',
+		// Removed borderBottomWidth to eliminate line between contact and profile
 		paddingBottom: 12,
 	},
 	name: {
 		fontSize: 24,
 		fontWeight: 'bold',
-		marginBottom: 8,
+		marginBottom: 16, // Increased from 8 to 16 for proper spacing between name and contact info
 		color: '#1A1A1A',
 	},
 	contactInfo: {
