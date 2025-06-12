@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Edit, Eye, EyeOff, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -48,8 +48,41 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
   onDownload
 }) => {
   const [editMode, setEditMode] = useState<boolean>(false);
-  const [editableData, setEditableData] = useState<ResumeData>(data);
   const [showOptimized, setShowOptimized] = useState<boolean>(!!optimizedData);
+
+  // Use optimized data for editing if available and showOptimized is true
+  const getEditableData = () => {
+    if (showOptimized && optimizedData) {
+      return {
+        name: optimizedData.personalInfo.name,
+        email: optimizedData.personalInfo.email,
+        phone: optimizedData.personalInfo.phone,
+        summary: optimizedData.profileSummary,
+        experience: optimizedData.workExperience.map(exp => ({
+          title: exp.title,
+          company: exp.company,
+          startDate: exp.startDate,
+          endDate: exp.endDate,
+          description: exp.description
+        })),
+        education: optimizedData.education.map(edu => ({
+          degree: edu.degree,
+          institution: edu.institution,
+          startDate: edu.startDate,
+          endDate: edu.endDate
+        })),
+        skills: optimizedData.coreCompetencies
+      };
+    }
+    return data;
+  };
+
+  const [editableData, setEditableData] = useState<ResumeData>(getEditableData());
+
+  // Update editableData when showOptimized changes
+  useEffect(() => {
+    setEditableData(getEditableData());
+  }, [showOptimized, optimizedData]);
 
   // Use optimized data if available and showOptimized is true
   const displayData = showOptimized && optimizedData ? {
@@ -186,6 +219,8 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
             variant="outline"
             size="sm"
             onClick={() => setEditMode(!editMode)}
+            disabled={optimizedData && !showOptimized}
+            className={optimizedData && !showOptimized ? "opacity-50 cursor-not-allowed" : ""}
           >
             {editMode ? (
               <>
@@ -202,7 +237,8 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
           <Button
             variant="default"
             size="sm"
-            className="bg-neon-purple hover:bg-neon-purple/80"
+            className={`bg-neon-purple hover:bg-neon-purple/80 ${optimizedData && !showOptimized ? "opacity-50 cursor-not-allowed" : ""}`}
+            disabled={optimizedData && !showOptimized}
           >
             <PDFGenerator
               data={data}
