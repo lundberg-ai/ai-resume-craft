@@ -87,7 +87,7 @@ ${originalResumeData.education?.map(edu => `
 - ${edu.degree} från ${edu.institution} (${edu.startDate} - ${edu.endDate})
 `).join('\n') || 'Ingen utbildning angiven'}
 
-Färdigheter: ${originalResumeData.skills?.join(', ') || 'Inga färdigheter angivna'}
+Kompetenser: ${originalResumeData.skills?.join(', ') || 'Inga kompetenser angivna'}
 
 JOBBESKRIVNING ATT ANPASSA TILL:
 ${jobDescription}
@@ -95,8 +95,8 @@ ${jobDescription}
 INSTRUKTIONER:
 1. Skapa en professionell sammanfattning (2-3 meningar) som direkt kopplar kandidatens bakgrund till jobbet
 2. Optimera arbetserfarenheter - betona relevanta uppgifter och prestationer
-3. Skapa en lista med 8-10 kärnkompetenser som matchar jobbet
-4. Kategorisera tekniska färdigheter i relevanta grupper
+3. Skapa en lista med 8-10 kompetenser som matchar jobbet
+4. Kategorisera tekniker i relevanta grupper
 5. Behåll all faktisk information men betona det som är mest relevant
 6. VIKTIGT: Skriv ALLTID på svenska, även om originaldatan eller jobbeskrivningen är på engelska
 

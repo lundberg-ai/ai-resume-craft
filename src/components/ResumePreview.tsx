@@ -330,7 +330,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                 </div>
 
                 <div>
-                  <h2 className="text-lg font-semibold mb-2">Färdigheter</h2>
+                  <h2 className="text-lg font-semibold mb-2">Kompetenser</h2>
                   <div className="flex flex-wrap gap-2">
                     {editableData.skills?.map((skill, index) => (
                       <Input
@@ -418,9 +418,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                 {/* Skills Section - Enhanced for optimized data */}
                 {displayData.skills && displayData.skills.length > 0 && (
                   <div>
-                    <h2 className="text-lg font-semibold mb-3">
-                      {showOptimized ? 'Kärnkompetenser' : 'Färdigheter'}
-                    </h2>
+                    <h2 className="text-lg font-semibold mb-3">Kompetenser</h2>
                     <div className="flex flex-wrap gap-2">
                       {displayData.skills.map((skill, index) => (
                         <span
@@ -437,7 +435,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                 {/* Technical Skills - Only show for optimized data */}
                 {showOptimized && optimizedData?.technicalSkills && (
                   <div>
-                    <h2 className="text-lg font-semibold mb-3">Tekniska färdigheter</h2>
+                    <h2 className="text-lg font-semibold mb-3">Tekniker</h2>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       {optimizedData.technicalSkills.programmingLanguages?.length > 0 && (
                         <div>

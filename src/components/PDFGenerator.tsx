@@ -299,9 +299,7 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 				{/* Core Competencies/Skills - unwrappable section */}
 				{displayData.skills && displayData.skills.length > 0 && (
 					<View style={styles.section} wrap={false}>
-						<Text style={styles.sectionTitle}>
-							{useOptimized ? 'Kärnkompetenser' : 'Färdigheter'}
-						</Text>
+						<Text style={styles.sectionTitle}>Kompetenser</Text>
 						<View style={styles.skillsContainer}>
 							{displayData.skills.map((skill, index) => (
 								<Text key={index} style={styles.skillChip}>{skill}</Text>
@@ -313,7 +311,7 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 				{/* Technical Skills - unwrappable section for optimized data */}
 				{useOptimized && optimizedData?.technicalSkills && (
 					<View style={styles.section} wrap={false}>
-						<Text style={styles.sectionTitle}>Tekniska färdigheter</Text>
+						<Text style={styles.sectionTitle}>Tekniker</Text>
 						<View style={styles.technicalSkillsGrid}>
 							{optimizedData.technicalSkills.programmingLanguages && optimizedData.technicalSkills.programmingLanguages.length > 0 && (
 								<View style={styles.technicalSkillCategory}>
