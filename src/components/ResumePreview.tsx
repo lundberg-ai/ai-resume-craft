@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
-import { Edit, Eye, EyeOff } from 'lucide-react';
+import { Edit, Eye, EyeOff, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { OptimizedResumeData } from '@/types/optimizedResume';
 
 interface ResumeData {
   name?: string;
@@ -33,14 +34,54 @@ interface ResumeData {
 
 interface ResumePreviewProps {
   data: ResumeData;
+  optimizedData?: OptimizedResumeData | null;
   theme: string;
   color: string;
   onUpdate: (data: ResumeData) => void;
+  onDownload?: () => void;
 }
 
-const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpdate }) => {
+const ResumePreview: React.FC<ResumePreviewProps> = ({
+  data,
+  optimizedData,
+  theme,
+  color,
+  onUpdate,
+  onDownload
+}) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [editableData, setEditableData] = useState<ResumeData>(data);
+  const [showOptimized, setShowOptimized] = useState<boolean>(!!optimizedData);
+
+  // Use optimized data if available and showOptimized is true
+  const displayData = showOptimized && optimizedData ? {
+    name: optimizedData.personalInfo.name,
+    email: optimizedData.personalInfo.email,
+    phone: optimizedData.personalInfo.phone,
+    address: optimizedData.personalInfo.address,
+    summary: optimizedData.profileSummary,
+    experience: optimizedData.workExperience.map(exp => ({
+      title: exp.title,
+      company: exp.company,
+      location: exp.location,
+      startDate: exp.startDate,
+      endDate: exp.endDate,
+      description: exp.description
+    })),
+    education: optimizedData.education,
+    skills: optimizedData.coreCompetencies
+  } : data;
+
+  const handleDownload = () => {
+    console.log('🎯 Preparing PDF download with data:', showOptimized && optimizedData ? optimizedData : data);
+
+    if (onDownload) {
+      onDownload();
+    } else {
+      console.log('💡 PDF generation will be implemented here');
+      console.log('📊 Data structure ready for react-pdf:', displayData);
+    }
+  };
 
   const handleSaveEdit = () => {
     onUpdate(editableData);
@@ -117,37 +158,66 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
   } as React.CSSProperties;
 
   return (
-    <div className="space-y-4">      <div className="flex justify-between items-center mb-4">
-      <h3 className="text-xl font-medium">CV-förhandsvisning</h3>
-      <div className="flex items-center space-x-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setEditMode(!editMode)}
-        >
-          {editMode ? (
-            <>
-              <EyeOff className="mr-2 h-4 w-4" />
-              Visningsläge
-            </>
-          ) : (
-            <>
-              <Edit className="mr-2 h-4 w-4" />
-              Redigeringsläge
-            </>
+    <div className="space-y-4">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-medium">CV-förhandsvisning</h3>
+        <div className="flex items-center space-x-2">
+          {optimizedData && (
+            <Button
+              variant={showOptimized ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowOptimized(!showOptimized)}
+            >
+              {showOptimized ? (
+                <>
+                  <Eye className="mr-2 h-4 w-4" />
+                  Optimerad version
+                </>
+              ) : (
+                <>
+                  <EyeOff className="mr-2 h-4 w-4" />
+                  Original version
+                </>
+              )}
+            </Button>
           )}
-        </Button>
-        {editMode && (
           <Button
+            variant="outline"
             size="sm"
-            onClick={handleSaveEdit}
+            onClick={() => setEditMode(!editMode)}
           >
-            <Eye className="mr-2 h-4 w-4" />
-            Spara & förhandsgranska
+            {editMode ? (
+              <>
+                <EyeOff className="mr-2 h-4 w-4" />
+                Visningsläge
+              </>
+            ) : (
+              <>
+                <Edit className="mr-2 h-4 w-4" />
+                Redigeringsläge
+              </>
+            )}
           </Button>
-        )}
+          <Button
+            variant="default"
+            size="sm"
+            onClick={handleDownload}
+            className="bg-neon-purple hover:bg-neon-purple/80"
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Ladda ner PDF
+          </Button>
+          {editMode && (
+            <Button
+              size="sm"
+              onClick={handleSaveEdit}
+            >
+              <Eye className="mr-2 h-4 w-4" />
+              Spara & förhandsgranska
+            </Button>
+          )}
+        </div>
       </div>
-    </div>
 
       <Card className="p-0 overflow-hidden">
         <div className={cn(`resume-container theme-${theme}`)} style={customStyle}>
@@ -287,28 +357,41 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
               </div>
             </div>
           ) : (
-            // Preview Mode
+            // Preview Mode - Shows optimized data if available
             <div className="space-y-6">
-              <div className={getHeaderClass()}>
-                <h1 className="text-2xl font-bold">{editableData.name}</h1>
-                <div className="flex flex-wrap gap-x-4 text-sm">
-                  {editableData.email && <p>{editableData.email}</p>}
-                  {editableData.phone && <p>{editableData.phone}</p>}
-                  {editableData.address && <p>{editableData.address}</p>}
-                </div>
-              </div>
-
-              {editableData.summary && (
-                <div>
-                  <h2 className="text-lg font-semibold mb-2">Professional Summary</h2>
-                  <p>{editableData.summary}</p>
+              {showOptimized && optimizedData && (
+                <div className="mb-4 p-3 bg-neon-purple/10 border border-neon-purple/20 rounded-md">
+                  <p className="text-sm font-medium text-neon-purple">
+                    ✨ Detta är den optimerade versionen av ditt CV, anpassad för jobbeskrivningen
+                  </p>
                 </div>
               )}
 
-              {editableData.experience && editableData.experience.length > 0 && (
+              <div className={getHeaderClass()}>
+                <h1 className="text-2xl font-bold">{displayData.name}</h1>
+                <div className="flex flex-wrap gap-x-4 text-sm">
+                  {displayData.email && <p>{displayData.email}</p>}
+                  {displayData.phone && <p>{displayData.phone}</p>}
+                  {displayData.address && <p>{displayData.address}</p>}
+                  {showOptimized && optimizedData?.personalInfo.linkedin && (
+                    <p>{optimizedData.personalInfo.linkedin}</p>
+                  )}
+                </div>
+              </div>
+
+              {displayData.summary && (
                 <div>
-                  <h2 className="text-lg font-semibold mb-2">Work Experience</h2>
-                  {editableData.experience.map((exp, index) => (
+                  <h2 className="text-lg font-semibold mb-2">
+                    {showOptimized ? 'Profil' : 'Professionell sammanfattning'}
+                  </h2>
+                  <p className="text-sm leading-relaxed">{displayData.summary}</p>
+                </div>
+              )}
+
+              {displayData.experience && displayData.experience.length > 0 && (
+                <div>
+                  <h2 className="text-lg font-semibold mb-3">Arbetslivserfarenhet</h2>
+                  {displayData.experience.map((exp, index) => (
                     <div key={index} className="mb-4">
                       <div className="flex justify-between">
                         <h3 className="font-medium">{exp.title}</h3>
@@ -318,17 +401,26 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
                         <p>{exp.company}</p>
                         <p>{exp.location}</p>
                       </div>
-                      <p className="mt-1 text-sm">{exp.description}</p>
+                      <p className="mt-1 text-sm leading-relaxed">{exp.description}</p>
+                      {showOptimized && optimizedData?.workExperience[index]?.keyAchievements && (
+                        <div className="mt-2">
+                          <ul className="list-disc list-inside text-xs space-y-1">
+                            {optimizedData.workExperience[index].keyAchievements.map((achievement, i) => (
+                              <li key={i}>{achievement}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
               )}
 
-              {editableData.education && editableData.education.length > 0 && (
+              {displayData.education && displayData.education.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-semibold mb-2">Education</h2>
-                  {editableData.education.map((edu, index) => (
-                    <div key={index} className="mb-4">
+                  <h2 className="text-lg font-semibold mb-3">Utbildning</h2>
+                  {displayData.education.map((edu, index) => (
+                    <div key={index} className="mb-3">
                       <div className="flex justify-between">
                         <h3 className="font-medium">{edu.degree}</h3>
                         <span className="text-sm">{edu.startDate} - {edu.endDate}</span>
@@ -342,17 +434,68 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({ data, theme, color, onUpd
                 </div>
               )}
 
-              {editableData.skills && editableData.skills.length > 0 && (
+              {/* Skills Section - Enhanced for optimized data */}
+              {displayData.skills && displayData.skills.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-semibold mb-2">Skills</h2>
+                  <h2 className="text-lg font-semibold mb-3">
+                    {showOptimized ? 'Kärnkompetenser' : 'Färdigheter'}
+                  </h2>
                   <div className="flex flex-wrap gap-2">
-                    {editableData.skills.map((skill, index) => (
+                    {displayData.skills.map((skill, index) => (
                       <span
                         key={index}
                         className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
                       >
                         {skill}
                       </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Technical Skills - Only show for optimized data */}
+              {showOptimized && optimizedData?.technicalSkills && (
+                <div>
+                  <h2 className="text-lg font-semibold mb-3">Tekniska färdigheter</h2>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    {optimizedData.technicalSkills.programmingLanguages?.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-1">Programmeringsspråk</h4>
+                        <p>{optimizedData.technicalSkills.programmingLanguages.join(', ')}</p>
+                      </div>
+                    )}
+                    {optimizedData.technicalSkills.frameworks?.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-1">Ramverk</h4>
+                        <p>{optimizedData.technicalSkills.frameworks.join(', ')}</p>
+                      </div>
+                    )}
+                    {optimizedData.technicalSkills.tools?.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-1">Verktyg</h4>
+                        <p>{optimizedData.technicalSkills.tools.join(', ')}</p>
+                      </div>
+                    )}
+                    {optimizedData.technicalSkills.other?.length > 0 && (
+                      <div>
+                        <h4 className="font-medium mb-1">Övrigt</h4>
+                        <p>{optimizedData.technicalSkills.other.join(', ')}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Languages - Only show for optimized data */}
+              {showOptimized && optimizedData?.languages && optimizedData.languages.length > 0 && (
+                <div>
+                  <h2 className="text-lg font-semibold mb-3">Språk</h2>
+                  <div className="flex flex-wrap gap-3">
+                    {optimizedData.languages.map((lang, index) => (
+                      <div key={index} className="text-sm">
+                        <span className="font-medium">{lang.language}</span>
+                        <span className="text-muted-foreground"> - {lang.proficiency}</span>
+                      </div>
                     ))}
                   </div>
                 </div>

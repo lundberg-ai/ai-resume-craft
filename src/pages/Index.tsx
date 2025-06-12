@@ -8,6 +8,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Upload, FileText, Eye, Download, Sparkles } from 'lucide-react';
+import { resumeOptimizationService } from '@/services/resumeOptimizationService';
+import { OptimizedResumeData } from '@/types/optimizedResume';
+import { ResumeDataValidator, isReadyForPDF } from '@/utils/resumeDataValidator';
 
 interface ResumeData {
   name?: string;
@@ -37,6 +40,7 @@ const Index: React.FC = () => {
   const { toast } = useToast();
   const [activeStep, setActiveStep] = useState<string>("upload");
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
+  const [optimizedResumeData, setOptimizedResumeData] = useState<OptimizedResumeData | null>(null);
   const [jobDescription, setJobDescription] = useState<string>("");
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
@@ -49,25 +53,106 @@ const Index: React.FC = () => {
     setActiveStep("job");
   };
 
-  const handleJobDescriptionSubmit = (description: string) => {
+  const handleJobDescriptionSubmit = async (description: string) => {
     setJobDescription(description);
     setIsProcessing(true);
 
-    // Mock API call to process resume with AI
-    setTimeout(() => {
-      setIsProcessing(false);
-      toast({
-        title: "CV optimerad!",
-        description: "Ditt CV har anpassats till den angivna jobbeskrivningen.",
+    try {
+      console.log('🚀 Starting CV optimization process...');
+      console.log('📄 Original Resume Data:', resumeData);
+      console.log('📋 Job Description:', description);
+
+      if (!resumeData) {
+        throw new Error('Ingen CV-data tillgänglig för optimering');
+      }
+
+      // Call the optimization service
+      const result = await resumeOptimizationService.optimizeResume({
+        originalResumeData: resumeData,
+        jobDescription: description
       });
-      setActiveStep("preview");
-    }, 2000);
+
+      if (result.success) {
+        setOptimizedResumeData(result.optimizedResume);
+
+        console.log('✅ CV optimization completed successfully!');
+        console.log('📊 Optimized Resume Data:', result.optimizedResume);
+        console.log('💡 Optimization Notes:', result.optimizationNotes);
+
+        // Log structured data for PDF generation
+        console.log('\n🎯 DATA FOR PDF GENERATION:');
+        console.log('👤 Personal Info:', result.optimizedResume.personalInfo);
+        console.log('📝 Profile Summary:', result.optimizedResume.profileSummary);
+        console.log('💼 Work Experience:', result.optimizedResume.workExperience);
+        console.log('🎓 Education:', result.optimizedResume.education);
+        console.log('🔧 Core Competencies:', result.optimizedResume.coreCompetencies);
+        console.log('💻 Technical Skills:', result.optimizedResume.technicalSkills);
+        console.log('🌍 Languages:', result.optimizedResume.languages);
+        console.log('🏆 Certifications:', result.optimizedResume.certifications);
+
+        toast({
+          title: "CV optimerad!",
+          description: `Ditt CV har anpassats till jobbeskrivningen. ${result.optimizationNotes || ''}`,
+          duration: 4000,
+        });
+
+        setActiveStep("preview");
+      } else {
+        throw new Error(result.error || 'Optimering misslyckades');
+      }
+
+    } catch (error) {
+      console.error('❌ Error during CV optimization:', error);
+
+      toast({
+        title: "Fel vid optimering",
+        description: error instanceof Error ? error.message : "Ett oväntat fel uppstod",
+        variant: "destructive",
+        duration: 4000,
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleResumeDownload = () => {
+    const dataForPDF = optimizedResumeData || resumeData;
+
+    console.log('🎯 PDF Download initiated with data:', dataForPDF);
+
+    if (optimizedResumeData) {
+      console.log('📄 Using OPTIMIZED resume data for PDF generation');
+
+      // Validate PDF readiness
+      const pdfReady = isReadyForPDF(optimizedResumeData);
+      const summary = ResumeDataValidator.getPDFReadySummary(optimizedResumeData);
+
+      console.log('🔍 PDF Readiness Check:', {
+        readyForPDF: pdfReady,
+        summary: summary
+      });
+
+      if (!pdfReady) {
+        const validation = ResumeDataValidator.validateOptimizedData(optimizedResumeData);
+        console.warn('⚠️ PDF generation may have issues:', validation.errors);
+      }
+
+      ResumeDataValidator.logDataStructure(optimizedResumeData, 'Final PDF Data');
+    } else {
+      console.log('📄 Using ORIGINAL resume data for PDF generation');
+      console.log('📋 Original data structure:', resumeData);
+    }
+
+    // TODO: Implement react-pdf PDF generation here
+    console.log('💡 Next step: Implement react-pdf document generation');
+    console.log('🎯 Data is ready for react-pdf implementation!');
+
     toast({
-      title: "CV nedladdad",
-      description: "Ditt anpassade CV har laddats ner.",
+      title: "PDF förbereds",
+      description: optimizedResumeData
+        ? "Laddar ner optimerad CV som PDF..."
+        : "Laddar ner CV som PDF...",
+      duration: 3000,
     });
   };
 
@@ -181,9 +266,11 @@ const Index: React.FC = () => {
                   {resumeData && (
                     <ResumePreview
                       data={resumeData}
+                      optimizedData={optimizedResumeData}
                       theme="classic"
                       color="#9b87f5"
                       onUpdate={handleUpdateResumeData}
+                      onDownload={handleResumeDownload}
                     />
                   )}
                 </div>

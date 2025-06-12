@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from "@/hooks/use-toast";
 import * as pdfjsLib from 'pdfjs-dist';
+import { ResumeTextParser } from '@/utils/resumeTextParser';
 
 interface ResumeUploaderProps {
   onUploadComplete: (data: any) => void;
@@ -163,53 +164,28 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
     if (!file && !textContent.trim()) return;
 
     setIsProcessing(true);
-    // In a real implementation, you would upload the file to a server and process it
-    // For this demo, we'll simulate the process with a timeout and mock data
+
     setTimeout(() => {
-      const mockResumeData = {
-        name: "Anna Karlsson",
-        email: "anna.karlsson@example.com",
-        phone: "070-123 45 67",
-        address: "Stockholm, Sverige",
-        summary: "Erfaren mjukvaruingenjör med 5+ års erfarenhet av fullstack-utveckling. Skicklig inom React, Node.js och molnteknologier.",
-        experience: [
-          {
-            title: "Senior Mjukvaruingenjör",
-            company: "Tech Solutions AB",
-            location: "Stockholm, Sverige",
-            startDate: "Jan 2020",
-            endDate: "Nuvarande",
-            description: "Ansvarig utvecklare för kundvända webbapplikationer. Förbättrade applikationsprestanda med 35%. Mentorskap för juniora utvecklare."
-          },
-          {
-            title: "Mjukvaruingenjör",
-            company: "WebDev Experts",
-            location: "Stockholm, Sverige",
-            startDate: "Mar 2017",
-            endDate: "Dec 2019", description: "Utvecklade och underhöll e-handelsapplikationer. Implementerade nya funktioner och optimerade databasfrågor."
-          }
-        ],
-        education: [
-          {
-            degree: "M.Sc. Datavetenskap",
-            institution: "Kungliga Tekniska högskolan",
-            location: "Stockholm, Sverige",
-            startDate: "2015",
-            endDate: "2017"
-          },
-          {
-            degree: "Kandidatexamen Datavetenskap",
-            institution: "Chalmers tekniska högskola",
-            location: "Göteborg, Sverige",
-            startDate: "2011",
-            endDate: "2015"
-          }
-        ],
-        skills: ["JavaScript", "TypeScript", "React", "Node.js", "AWS", "Git", "CI/CD", "Agila metoder"]
-      };
+      let resumeText = '';
+
+      // Use extracted PDF text or manual text input
+      if (file && extractedPDFText) {
+        resumeText = extractedPDFText;
+        console.log('📄 Using extracted PDF text for parsing');
+      } else if (textContent.trim()) {
+        resumeText = textContent;
+        console.log('📝 Using manually entered text for parsing');
+      }
+
+      console.log('🔍 Resume text to parse:', resumeText.substring(0, 300) + '...');
+
+      // Parse the actual resume text instead of using mock data
+      const parsedResumeData = ResumeTextParser.parseResumeText(resumeText);
+
+      console.log('✅ Parsed resume data from actual text:', parsedResumeData);
 
       setIsProcessing(false);
-      onUploadComplete(mockResumeData);
+      onUploadComplete(parsedResumeData);
     }, 2000);
   };
 
