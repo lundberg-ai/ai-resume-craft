@@ -184,7 +184,6 @@ interface ResumeData {
 	experience?: {
 		title: string;
 		company: string;
-		location: string;
 		startDate: string;
 		endDate: string;
 		description: string;
@@ -192,7 +191,6 @@ interface ResumeData {
 	education?: {
 		degree: string;
 		institution: string;
-		location: string;
 		startDate: string;
 		endDate: string;
 	}[];
@@ -222,12 +220,16 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 		experience: optimizedData.workExperience.map(exp => ({
 			title: exp.title,
 			company: exp.company,
-			location: exp.location,
 			startDate: exp.startDate,
 			endDate: exp.endDate,
 			description: exp.description
 		})),
-		education: optimizedData.education,
+		education: optimizedData.education.map(edu => ({
+			degree: edu.degree,
+			institution: edu.institution,
+			startDate: edu.startDate,
+			endDate: edu.endDate
+		})),
 		skills: optimizedData.coreCompetencies
 	} : data;
 
@@ -273,10 +275,7 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 									<Text style={styles.jobTitle}>{exp.title}</Text>
 									<Text style={styles.dateRange}>{exp.startDate} - {exp.endDate}</Text>
 								</View>
-								<View style={styles.companyInfo}>
-									<Text style={styles.company}>{exp.company}</Text>
-									<Text style={styles.location}>{exp.location}</Text>
-								</View>
+								<Text style={styles.company}>{exp.company}</Text>
 								<Text style={styles.description}>{exp.description}</Text>
 								{useOptimized && optimizedData?.workExperience[index]?.keyAchievements && (
 									<View style={styles.achievements}>
@@ -300,10 +299,7 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 									<Text style={styles.degree}>{edu.degree}</Text>
 									<Text style={styles.dateRange}>{edu.startDate} - {edu.endDate}</Text>
 								</View>
-								<View style={styles.companyInfo}>
-									<Text style={styles.institution}>{edu.institution}</Text>
-									<Text style={styles.location}>{edu.location}</Text>
-								</View>
+								<Text style={styles.institution}>{edu.institution}</Text>
 							</View>
 						))}
 					</View>

@@ -70,7 +70,6 @@ export class ResumeDataValidator {
 		data.workExperience?.forEach((exp, index) => {
 			console.log(`\n${index + 1}. ${exp.title} at ${exp.company}`);
 			console.log(`   Period: ${exp.startDate} - ${exp.endDate}`);
-			console.log(`   Location: ${exp.location}`);
 			console.log(`   Description: ${exp.description?.substring(0, 100)}...`);
 			if (exp.keyAchievements?.length > 0) {
 				console.log(`   Key Achievements: ${exp.keyAchievements.length} items`);

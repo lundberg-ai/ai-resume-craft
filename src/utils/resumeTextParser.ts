@@ -11,7 +11,6 @@ export interface ParsedResumeData {
 	experience?: {
 		title: string;
 		company: string;
-		location: string;
 		startDate: string;
 		endDate: string;
 		description: string;
@@ -19,7 +18,6 @@ export interface ParsedResumeData {
 	education?: {
 		degree: string;
 		institution: string;
-		location: string;
 		startDate: string;
 		endDate: string;
 	}[];
@@ -155,7 +153,6 @@ export class ResumeTextParser {
 	private static extractExperience(text: string): Array<{
 		title: string;
 		company: string;
-		location: string;
 		startDate: string;
 		endDate: string;
 		description: string;
@@ -192,7 +189,6 @@ export class ResumeTextParser {
 			experiences.push({
 				title,
 				company,
-				location: 'Sverige',
 				startDate: startYear,
 				endDate,
 				description
@@ -206,7 +202,6 @@ export class ResumeTextParser {
 	private static extractEducation(text: string): Array<{
 		degree: string;
 		institution: string;
-		location: string;
 		startDate: string;
 		endDate: string;
 	}> {
@@ -241,7 +236,6 @@ export class ResumeTextParser {
 			education.push({
 				degree,
 				institution,
-				location: 'Sverige',
 				startDate: startYear,
 				endDate
 			});

@@ -18,7 +18,6 @@ interface ResumeData {
   experience?: {
     title: string;
     company: string;
-    location: string;
     startDate: string;
     endDate: string;
     description: string;
@@ -26,7 +25,6 @@ interface ResumeData {
   education?: {
     degree: string;
     institution: string;
-    location: string;
     startDate: string;
     endDate: string;
   }[];
@@ -64,12 +62,16 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
     experience: optimizedData.workExperience.map(exp => ({
       title: exp.title,
       company: exp.company,
-      location: exp.location,
       startDate: exp.startDate,
       endDate: exp.endDate,
       description: exp.description
     })),
-    education: optimizedData.education,
+    education: optimizedData.education.map(edu => ({
+      degree: edu.degree,
+      institution: edu.institution,
+      startDate: edu.startDate,
+      endDate: edu.endDate
+    })),
     skills: optimizedData.coreCompetencies
   } : data;
 
@@ -283,12 +285,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                         placeholder="Företag"
                       />
                     </div>
-                      <div className="grid grid-cols-3 gap-2 mb-2">
-                        <Input
-                          value={exp.location}
-                          onChange={(e) => handleExperienceChange(index, 'location', e.target.value)}
-                          placeholder="Ort"
-                        />
+                      <div className="grid grid-cols-2 gap-2 mb-2">
                         <Input
                           value={exp.startDate}
                           onChange={(e) => handleExperienceChange(index, 'startDate', e.target.value)}
@@ -324,12 +321,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                           placeholder="Institution"
                         />
                       </div>
-                      <div className="grid grid-cols-3 gap-2">
-                        <Input
-                          value={edu.location}
-                          onChange={(e) => handleEducationChange(index, 'location', e.target.value)}
-                          placeholder="Ort"
-                        />
+                      <div className="grid grid-cols-2 gap-2">
                         <Input
                           value={edu.startDate}
                           onChange={(e) => handleEducationChange(index, 'startDate', e.target.value)}

@@ -174,7 +174,6 @@ Svara ENDAST med valid JSON, inga kommentarer eller extra text.
 			workExperience: Array.isArray(data.workExperience) ? data.workExperience.map((exp: any) => ({
 				title: exp.title || '',
 				company: exp.company || '',
-				location: exp.location || '',
 				startDate: exp.startDate || '',
 				endDate: exp.endDate || '',
 				description: exp.description || '',
@@ -183,7 +182,6 @@ Svara ENDAST med valid JSON, inga kommentarer eller extra text.
 			education: Array.isArray(data.education) ? data.education.map((edu: any) => ({
 				degree: edu.degree || '',
 				institution: edu.institution || '',
-				location: edu.location || '',
 				startDate: edu.startDate || '',
 				endDate: edu.endDate || ''
 			})) : [],
@@ -230,7 +228,6 @@ Svara ENDAST med valid JSON, inga kommentarer eller extra text.
 			workExperience: original.experience?.map(exp => ({
 				title: exp.title,
 				company: exp.company,
-				location: exp.location,
 				startDate: exp.startDate,
 				endDate: exp.endDate,
 				description: `${exp.description} - Optimerat för att matcha nyckelkrav i jobbeskrivningen.`,
@@ -243,7 +240,6 @@ Svara ENDAST med valid JSON, inga kommentarer eller extra text.
 			education: original.education?.map(edu => ({
 				degree: edu.degree,
 				institution: edu.institution,
-				location: edu.location,
 				startDate: edu.startDate,
 				endDate: edu.endDate
 			})) || [],

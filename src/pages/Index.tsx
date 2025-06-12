@@ -22,7 +22,6 @@ interface ResumeData {
   experience?: {
     title: string;
     company: string;
-    location: string;
     startDate: string;
     endDate: string;
     description: string;
@@ -30,7 +29,6 @@ interface ResumeData {
   education?: {
     degree: string;
     institution: string;
-    location: string;
     startDate: string;
     endDate: string;
   }[];
@@ -223,14 +221,16 @@ const Index: React.FC = () => {
               </TabsTrigger>
               <TabsTrigger
                 value="job"
-                className="data-[state=active]:bg-neon-purple data-[state=active]:text-white rounded-none uppercase font-bold tracking-wide"
+                disabled={!resumeData}
+                className="data-[state=active]:bg-neon-purple data-[state=active]:text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-none uppercase font-bold tracking-wide"
               >
                 <FileText className="mr-2 h-4 w-4" />
                 Jobbeskrivning
               </TabsTrigger>
               <TabsTrigger
                 value="preview"
-                className="data-[state=active]:bg-neon-purple data-[state=active]:text-white rounded-none uppercase font-bold tracking-wide"
+                disabled={!resumeData}
+                className="data-[state=active]:bg-neon-purple data-[state=active]:text-white disabled:opacity-50 disabled:cursor-not-allowed rounded-none uppercase font-bold tracking-wide"
               >
                 <Eye className="mr-2 h-4 w-4" />
                 Förhandsgranska
@@ -253,19 +253,36 @@ const Index: React.FC = () => {
               </div>
             </TabsContent>
             <TabsContent value="preview" className="animate-fade-in">
-              <div className="space-y-8">
-                <div className="flex justify-center">
-                  <Button className="bg-neon-purple hover:bg-neon-purple/80 text-white uppercase font-bold tracking-wide rounded-none shadow-[5px_5px_0_rgba(0,0,0,0.5)] px-8">
-                    <Download className="mr-2 h-4 w-4" />
-                    <PDFGenerator
-                      data={resumeData}
-                      optimizedData={optimizedResumeData}
-                      useOptimized={!!optimizedResumeData}
-                    />
+              {!resumeData ? (
+                <div className="brutalist-card p-8 text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+                    <Eye className="w-8 h-8 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-xl font-medium mb-2">Inget CV att förhandsgranska</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Du måste först ladda upp ett CV innan du kan förhandsgranska det.
+                  </p>
+                  <Button
+                    onClick={() => setActiveStep('upload')}
+                    className="bg-neon-purple hover:bg-neon-purple/80 text-white rounded-none uppercase font-bold tracking-wide shadow-[5px_5px_0_rgba(0,0,0,0.5)]"
+                  >
+                    <Upload className="mr-2 h-4 w-4" />
+                    Ladda upp CV
                   </Button>
                 </div>
-                <div className="max-w-4xl mx-auto">
-                  {resumeData && (
+              ) : (
+                <div className="space-y-8">
+                  <div className="flex justify-center">
+                    <Button className="bg-neon-purple hover:bg-neon-purple/80 text-white uppercase font-bold tracking-wide rounded-none shadow-[5px_5px_0_rgba(0,0,0,0.5)] px-8">
+                      <Download className="mr-2 h-4 w-4" />
+                      <PDFGenerator
+                        data={resumeData}
+                        optimizedData={optimizedResumeData}
+                        useOptimized={!!optimizedResumeData}
+                      />
+                    </Button>
+                  </div>
+                  <div className="max-w-4xl mx-auto">
                     <ResumePreview
                       data={resumeData}
                       optimizedData={optimizedResumeData}
@@ -274,9 +291,9 @@ const Index: React.FC = () => {
                       onUpdate={handleUpdateResumeData}
                       onDownload={handleResumeDownload}
                     />
-                  )}
+                  </div>
                 </div>
-              </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

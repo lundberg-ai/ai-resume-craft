@@ -42,7 +42,6 @@ export interface OptimizedResumeData {
 export interface WorkExperience {
 	title: string;
 	company: string;
-	location: string;
 	startDate: string;
 	endDate: string;
 	description: string; // AI-optimized description matching job requirements
@@ -52,7 +51,6 @@ export interface WorkExperience {
 export interface Education {
 	degree: string;
 	institution: string;
-	location: string;
 	startDate: string;
 	endDate: string;
 	gpa?: string;
@@ -83,7 +81,6 @@ export interface OptimizeResumeRequest {
 		experience?: {
 			title: string;
 			company: string;
-			location: string;
 			startDate: string;
 			endDate: string;
 			description: string;
@@ -91,7 +88,6 @@ export interface OptimizeResumeRequest {
 		education?: {
 			degree: string;
 			institution: string;
-			location: string;
 			startDate: string;
 			endDate: string;
 		}[];
