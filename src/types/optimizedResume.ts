@@ -5,7 +5,6 @@ export interface OptimizedResumeData {
 		name: string;
 		email?: string;
 		phone?: string;
-		address?: string;
 		linkedin?: string;
 		website?: string;
 	};
@@ -76,7 +75,6 @@ export interface OptimizeResumeRequest {
 		name?: string;
 		email?: string;
 		phone?: string;
-		address?: string;
 		summary?: string;
 		experience?: {
 			title: string;

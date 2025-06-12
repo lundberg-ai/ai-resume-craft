@@ -17,7 +17,6 @@ interface ResumeData {
   name?: string;
   email?: string;
   phone?: string;
-  address?: string;
   summary?: string;
   experience?: {
     title: string;

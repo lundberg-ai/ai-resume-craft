@@ -13,7 +13,6 @@ interface ResumeData {
   name?: string;
   email?: string;
   phone?: string;
-  address?: string;
   summary?: string;
   experience?: {
     title: string;
@@ -57,7 +56,6 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
     name: optimizedData.personalInfo.name,
     email: optimizedData.personalInfo.email,
     phone: optimizedData.personalInfo.phone,
-    address: optimizedData.personalInfo.address,
     summary: optimizedData.profileSummary,
     experience: optimizedData.workExperience.map(exp => ({
       title: exp.title,
@@ -237,7 +235,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                     placeholder="Ditt namn"
                     className="text-2xl font-bold border-none px-0 h-auto"
                   />
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                       <Input
                         value={editableData.email || ''}
                         onChange={(e) => handleDataChange('email', e.target.value)}
@@ -248,12 +246,6 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                         value={editableData.phone || ''}
                         onChange={(e) => handleDataChange('phone', e.target.value)}
                         placeholder="Telefon"
-                        className="border-none px-0 h-auto"
-                      />
-                      <Input
-                        value={editableData.address || ''}
-                        onChange={(e) => handleDataChange('address', e.target.value)}
-                        placeholder="Ort"
                         className="border-none px-0 h-auto"
                       />
                     </div>
@@ -368,7 +360,6 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                   <div className="contact-info">
                     {displayData.email && <span>{displayData.email}</span>}
                     {displayData.phone && <span>{displayData.phone}</span>}
-                    {displayData.address && <span>{displayData.address}</span>}
                     {showOptimized && optimizedData?.personalInfo.linkedin && (
                       <span>{optimizedData.personalInfo.linkedin}</span>
                     )}

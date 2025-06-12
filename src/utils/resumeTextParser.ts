@@ -6,7 +6,6 @@ export interface ParsedResumeData {
 	name?: string;
 	email?: string;
 	phone?: string;
-	address?: string;
 	summary?: string;
 	experience?: {
 		title: string;
@@ -38,7 +37,6 @@ export class ResumeTextParser {
 		result.name = this.extractName(text);
 		result.email = this.extractEmail(text);
 		result.phone = this.extractPhone(text);
-		result.address = this.extractAddress(text);
 
 		// Extract profile/summary
 		result.summary = this.extractSummary(text);
@@ -105,19 +103,6 @@ export class ResumeTextParser {
 		const phoneRegex = /(\+46\s?[0-9\s-]{8,15}|0[0-9\s-]{8,12})/;
 		const match = text.match(phoneRegex);
 		return match ? match[1].replace(/\s+/g, '') : '';
-	}
-
-	private static extractAddress(text: string): string {
-		// Look for Swedish cities or general location info
-		const swedishCities = ['Stockholm', 'Göteborg', 'Malmö', 'Uppsala', 'Luleå', 'Linköping', 'Örebro', 'Västerås', 'Helsingborg', 'Norrköping'];
-
-		for (const city of swedishCities) {
-			if (text.includes(city)) {
-				return `${city}, Sverige`;
-			}
-		}
-
-		return '';
 	}
 
 	private static extractSummary(text: string): string {

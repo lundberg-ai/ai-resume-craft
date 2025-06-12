@@ -179,7 +179,6 @@ interface ResumeData {
 	name?: string;
 	email?: string;
 	phone?: string;
-	address?: string;
 	summary?: string;
 	experience?: {
 		title: string;
@@ -215,7 +214,6 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 		name: optimizedData.personalInfo.name,
 		email: optimizedData.personalInfo.email,
 		phone: optimizedData.personalInfo.phone,
-		address: optimizedData.personalInfo.address,
 		summary: optimizedData.profileSummary,
 		experience: optimizedData.workExperience.map(exp => ({
 			title: exp.title,
@@ -245,9 +243,6 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 						)}
 						{displayData.phone && (
 							<Text style={styles.contactItem}>{displayData.phone}</Text>
-						)}
-						{displayData.address && (
-							<Text style={styles.contactItem}>{displayData.address}</Text>
 						)}
 						{useOptimized && optimizedData?.personalInfo.linkedin && (
 							<Text style={styles.contactItem}>{optimizedData.personalInfo.linkedin}</Text>

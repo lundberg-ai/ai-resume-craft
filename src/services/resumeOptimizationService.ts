@@ -74,7 +74,6 @@ ORIGINALDATA CV:
 Namn: ${originalResumeData.name || 'Ej angivet'}
 Email: ${originalResumeData.email || 'Ej angivet'}
 Telefon: ${originalResumeData.phone || 'Ej angivet'}
-Adress: ${originalResumeData.address || 'Ej angivet'}
 Sammanfattning: ${originalResumeData.summary || 'Ej angivet'}
 
 Arbetslivserfarenhet:
@@ -99,21 +98,20 @@ INSTRUKTIONER:
 3. Skapa en lista med 8-10 kärnkompetenser som matchar jobbet
 4. Kategorisera tekniska färdigheter i relevanta grupper
 5. Behåll all faktisk information men betona det som är mest relevant
+6. VIKTIGT: Skriv ALLTID på svenska, även om originaldatan eller jobbeskrivningen är på engelska
 
 RETURNERA SVARET I FÖLJANDE JSON-FORMAT:
 {
   "personalInfo": {
     "name": "${originalResumeData.name || ''}",
     "email": "${originalResumeData.email || ''}",
-    "phone": "${originalResumeData.phone || ''}",
-    "address": "${originalResumeData.address || ''}"
+    "phone": "${originalResumeData.phone || ''}"
   },
   "profileSummary": "Professionell sammanfattning som kopplar till jobbet...",
   "workExperience": [
     {
       "title": "Jobbtitel",
       "company": "Företag",
-      "location": "Plats",
       "startDate": "Startdatum",
       "endDate": "Slutdatum",
       "description": "Optimerad beskrivning som matchar jobbet",
@@ -124,7 +122,6 @@ RETURNERA SVARET I FÖLJANDE JSON-FORMAT:
     {
       "degree": "Examen",
       "institution": "Skola/Universitet",
-      "location": "Plats",
       "startDate": "Start",
       "endDate": "Slut"
     }
@@ -166,7 +163,6 @@ Svara ENDAST med valid JSON, inga kommentarer eller extra text.
 				name: data.personalInfo?.name || '',
 				email: data.personalInfo?.email || '',
 				phone: data.personalInfo?.phone || '',
-				address: data.personalInfo?.address || '',
 				linkedin: data.personalInfo?.linkedin || '',
 				website: data.personalInfo?.website || ''
 			},
@@ -220,7 +216,6 @@ Svara ENDAST med valid JSON, inga kommentarer eller extra text.
 				name: original.name || 'Anna Karlsson',
 				email: original.email || 'anna.karlsson@example.com',
 				phone: original.phone || '070-123 45 67',
-				address: original.address || 'Stockholm, Sverige',
 				linkedin: 'linkedin.com/in/anna-karlsson',
 				website: ''
 			},
