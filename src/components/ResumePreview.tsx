@@ -48,13 +48,17 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
   onUpdate,
   onDownload
 }) => {
-  const { toast } = useToast();
-  const [editMode, setEditMode] = useState<boolean>(false);
+  const { toast } = useToast(); const [editMode, setEditMode] = useState<boolean>(false);
   const [showOptimized, setShowOptimized] = useState<boolean>(!!optimizedData);
+  const [editedOptimizedData, setEditedOptimizedData] = useState<ResumeData | null>(null);
 
   // Use optimized data for editing if available and showOptimized is true
   const getEditableData = () => {
     if (showOptimized && optimizedData) {
+      // If we have edited data, use that instead
+      if (editedOptimizedData) {
+        return editedOptimizedData;
+      }
       return {
         name: optimizedData.personalInfo.name,
         email: optimizedData.personalInfo.email,
@@ -84,42 +88,55 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
   // Update editableData when showOptimized changes
   useEffect(() => {
     setEditableData(getEditableData());
-  }, [showOptimized, optimizedData]);
+  }, [showOptimized, optimizedData, editedOptimizedData]);
 
-  // Use optimized data if available and showOptimized is true
-  const displayData = showOptimized && optimizedData ? {
-    name: optimizedData.personalInfo.name,
-    email: optimizedData.personalInfo.email,
-    phone: optimizedData.personalInfo.phone,
-    summary: optimizedData.profileSummary,
-    experience: optimizedData.workExperience.map(exp => ({
-      title: exp.title,
-      company: exp.company,
-      startDate: exp.startDate,
-      endDate: exp.endDate,
-      description: exp.description
-    })),
-    education: optimizedData.education.map(edu => ({
-      degree: edu.degree,
-      institution: edu.institution,
-      startDate: edu.startDate,
-      endDate: edu.endDate
-    })),
-    skills: optimizedData.coreCompetencies
-  } : data;
+  // Use optimized data if available and showOptimized is true, but prefer edited data
+  const displayData = showOptimized && optimizedData ? (
+    editedOptimizedData || {
+      name: optimizedData.personalInfo.name,
+      email: optimizedData.personalInfo.email,
+      phone: optimizedData.personalInfo.phone,
+      summary: optimizedData.profileSummary,
+      experience: optimizedData.workExperience.map(exp => ({
+        title: exp.title,
+        company: exp.company,
+        startDate: exp.startDate,
+        endDate: exp.endDate,
+        description: exp.description
+      })),
+      education: optimizedData.education.map(edu => ({
+        degree: edu.degree,
+        institution: edu.institution,
+        startDate: edu.startDate,
+        endDate: edu.endDate
+      })),
+      skills: optimizedData.coreCompetencies
+    }
+  ) : data;
 
   const handleDownload = () => {
-    console.log('🎯 Preparing PDF download with data:', showOptimized && optimizedData ? optimizedData : data);
+    const dataForDownload = showOptimized && optimizedData ?
+      (editedOptimizedData || displayData) : data;
+
+    console.log('🎯 Preparing PDF download with data:', dataForDownload);
 
     if (onDownload) {
       onDownload();
     } else {
       console.log('💡 PDF generation will be implemented here');
-      console.log('📊 Data structure ready for react-pdf:', displayData);
+      console.log('📊 Data structure ready for react-pdf:', dataForDownload);
     }
   }; const handleSaveEdit = () => {
-    // Always update the base data for now since the parent expects ResumeData format
-    onUpdate(editableData);
+    if (showOptimized && optimizedData) {
+      // When editing optimized data, store it locally for display
+      setEditedOptimizedData(editableData);
+      console.log('✅ Optimized data changes saved locally');
+    } else {
+      // When editing original data, update through parent
+      onUpdate(editableData);
+      console.log('✅ Original data changes saved to parent');
+    }
+
     setEditMode(false);
 
     toast({
@@ -127,8 +144,6 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
       description: "Dina redigeringar har sparats och visas nu i förhandsvisningen.",
       duration: 3000,
     });
-
-    console.log('✅ Changes saved to resume data');
   };
 
   const handleCancelEdit = () => {
@@ -263,9 +278,9 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
               disabled={optimizedData && !showOptimized}
             >
               <PDFGenerator
-                data={data}
+                data={editedOptimizedData || data}
                 optimizedData={optimizedData}
-                useOptimized={showOptimized && !!optimizedData}
+                useOptimized={showOptimized && !!optimizedData && !editedOptimizedData}
               />
             </Button>
           )}
