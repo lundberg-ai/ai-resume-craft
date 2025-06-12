@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b-2 border-black sticky top-0 z-10 bg-background">
+      <header className="border-b-2 border-black sticky top-0 z-50 bg-background shadow-sm">
         <div className="container mx-auto px-6 py-5 flex justify-between items-center">
           <h1 className="text-3xl md:text-4xl font-bold font-display tracking-tight text-foreground relative">
             <span className="text-neon-purple">CV</span>Skaparen

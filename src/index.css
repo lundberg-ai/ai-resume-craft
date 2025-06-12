@@ -87,14 +87,23 @@
   .resume-preview-wrapper {
     background: rgb(204, 204, 204);
     padding: 2rem;
+    padding-top: 1rem;
+    /* Reduce top padding since navbar is fixed */
     min-height: 100vh;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    position: relative;
+    /* Ensure proper positioning */
   }
 
   /* A4 page simulation */
   .resume-container {
     background: white;
     width: 21cm;
-    height: 29.7cm;
+    min-height: 29.7cm;
+    /* Changed from height to min-height */
+    max-height: none;
+    /* Allow unlimited height */
     display: block;
     margin: 0 auto;
     margin-bottom: 0.5cm;
@@ -103,30 +112,36 @@
     font-size: 11pt;
     line-height: 1.4;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    overflow: hidden;
+    overflow: visible;
+    /* Changed from hidden to visible */
   }
 
   /* Responsive scaling for smaller screens */
   @media (max-width: 1200px) {
     .resume-container {
       width: 90vw;
-      height: calc(90vw * 1.414);
-      /* Maintain A4 ratio */
+      min-height: calc(90vw * 1.414);
+      /* Changed to min-height */
       max-width: 21cm;
-      max-height: 29.7cm;
+      max-height: none;
+      /* Allow unlimited height */
       padding: 6vw;
       font-size: 10pt;
+      overflow: visible;
+      /* Allow scrolling */
     }
   }
 
   @media (max-width: 768px) {
     .resume-container {
       width: 95vw;
-      height: auto;
       min-height: calc(95vw * 1.414);
+      /* Changed to min-height */
       padding: 5vw;
       font-size: 9pt;
       margin-bottom: 1rem;
+      overflow: visible;
+      /* Allow scrolling */
     }
 
     .resume-preview-wrapper {
