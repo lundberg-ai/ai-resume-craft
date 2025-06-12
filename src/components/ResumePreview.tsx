@@ -222,8 +222,8 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
         </div>
       </div>
 
-      <div className="flex justify-center"> {/* Center the A4 container */}
-        <Card className="p-0 overflow-hidden shadow-xl border-2 border-gray-200">
+      <div className="resume-preview-wrapper">
+        <div className="flex justify-center">
           <div className={cn(`resume-container theme-${theme}`)} style={customStyle}>
             {editMode ? (
               // Edit Mode
@@ -372,13 +372,13 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                 )}
 
                 <div className={getHeaderClass()}>
-                  <h1 className="text-2xl font-bold">{displayData.name}</h1>
-                  <div className="flex flex-wrap gap-x-4 text-sm">
-                    {displayData.email && <p>{displayData.email}</p>}
-                    {displayData.phone && <p>{displayData.phone}</p>}
-                    {displayData.address && <p>{displayData.address}</p>}
+                  <h1>{displayData.name}</h1>
+                  <div className="contact-info">
+                    {displayData.email && <span>{displayData.email}</span>}
+                    {displayData.phone && <span>{displayData.phone}</span>}
+                    {displayData.address && <span>{displayData.address}</span>}
                     {showOptimized && optimizedData?.personalInfo.linkedin && (
-                      <p>{optimizedData.personalInfo.linkedin}</p>
+                      <span>{optimizedData.personalInfo.linkedin}</span>
                     )}
                   </div>
                 </div>
@@ -396,19 +396,16 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                   <div>
                     <h2 className="text-lg font-semibold mb-3">Arbetslivserfarenhet</h2>
                     {displayData.experience.map((exp, index) => (
-                      <div key={index} className="mb-4">
-                        <div className="flex justify-between">
+                      <div key={index} className="experience-item mb-4">
+                        <div className="flex justify-between items-start">
                           <h3 className="font-medium">{exp.title}</h3>
-                          <span className="text-sm">{exp.startDate} - {exp.endDate}</span>
+                          <span className="text-sm text-gray-600">{exp.startDate} - {exp.endDate}</span>
                         </div>
-                        <div className="flex justify-between text-sm">
-                          <p>{exp.company}</p>
-                          <p>{exp.location}</p>
-                        </div>
-                        <p className="mt-1 text-sm leading-relaxed">{exp.description}</p>
+                        <p className="text-sm font-medium text-gray-700 mb-2">{exp.company}</p>
+                        <p className="text-sm leading-relaxed">{exp.description}</p>
                         {showOptimized && optimizedData?.workExperience[index]?.keyAchievements && (
-                          <div className="mt-2">
-                            <ul className="list-disc list-inside text-xs space-y-1">
+                          <div className="mt-3">
+                            <ul className="list-disc list-inside text-sm space-y-1">
                               {optimizedData.workExperience[index].keyAchievements.map((achievement, i) => (
                                 <li key={i}>{achievement}</li>
                               ))}
@@ -425,14 +422,11 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
                     <h2 className="text-lg font-semibold mb-3">Utbildning</h2>
                     {displayData.education.map((edu, index) => (
                       <div key={index} className="mb-3">
-                        <div className="flex justify-between">
+                        <div className="flex justify-between items-start">
                           <h3 className="font-medium">{edu.degree}</h3>
-                          <span className="text-sm">{edu.startDate} - {edu.endDate}</span>
+                          <span className="text-sm text-gray-600">{edu.startDate} - {edu.endDate}</span>
                         </div>
-                        <div className="flex justify-between text-sm">
-                          <p>{edu.institution}</p>
-                          <p>{edu.location}</p>
-                        </div>
+                        <p className="text-sm text-gray-700">{edu.institution}</p>
                       </div>
                     ))}
                   </div>
@@ -507,8 +501,8 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
               </div>
             )}
           </div>
-        </Card>
-      </div> {/* End of centering div */}
+        </div>
+      </div>
     </div>
   );
 };
