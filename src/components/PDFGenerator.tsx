@@ -1,43 +1,38 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 import { OptimizedResumeData } from '@/types/optimizedResume';
 
-// Register fonts (optional - uses default fonts if not registered)
-// Font.register({
-//   family: 'Open Sans',
-//   src: 'https://fonts.gstatic.com/s/opensans/v18/mem8YaGs126MiZpBA-UFVZ0bf8pkAp6a.woff2'
-// });
-
-// Create styles for A4 PDF with proper proportions
+// Create styles for A4 PDF matching the preview
 const styles = StyleSheet.create({
 	page: {
 		flexDirection: 'column',
 		backgroundColor: '#FFFFFF',
 		fontFamily: 'Helvetica',
-		fontSize: 10,
+		fontSize: 11,
 		lineHeight: 1.4,
-		paddingTop: 40,
-		paddingBottom: 40,
-		paddingHorizontal: 40,
+		paddingTop: 56.69, // 2cm
+		paddingBottom: 56.69, // 2cm
+		paddingHorizontal: 56.69, // 2cm
 	},
 	header: {
 		marginBottom: 20,
 		borderBottomWidth: 1,
-		borderBottomColor: '#E5E7EB',
-		paddingBottom: 15,
+		borderBottomColor: '#E0E0E0',
+		paddingBottom: 12,
 	},
 	name: {
-		fontSize: 26,
+		fontSize: 24,
 		fontWeight: 'bold',
 		marginBottom: 8,
-		color: '#1F2937',
+		color: '#1A1A1A',
 	},
 	contactInfo: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		gap: 15,
-		fontSize: 9,
-		color: '#6B7280',
+		fontSize: 10,
+		color: '#666666',
+		marginBottom: 12,
 	},
 	contactItem: {
 		marginRight: 15,
@@ -47,62 +42,58 @@ const styles = StyleSheet.create({
 	},
 	sectionTitle: {
 		fontSize: 14,
-		fontWeight: 'bold',
-		marginBottom: 10,
-		color: '#374151',
-		borderBottomWidth: 0.5,
-		borderBottomColor: '#D1D5DB',
-		paddingBottom: 4,
+		fontWeight: '600',
+		marginBottom: 6,
+		marginTop: 16,
+		color: '#2D2D2D',
+		borderBottomWidth: 1,
+		borderBottomColor: '#E0E0E0',
+		paddingBottom: 3,
 	},
 	profileSummary: {
-		fontSize: 10,
+		fontSize: 11,
 		lineHeight: 1.6,
 		color: '#4B5563',
 		textAlign: 'justify',
 	},
 	experienceItem: {
-		marginBottom: 14,
+		marginBottom: 16,
 	},
 	experienceHeader: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		alignItems: 'center',
+		alignItems: 'flex-start',
 		marginBottom: 4,
 	},
 	jobTitle: {
 		fontSize: 12,
-		fontWeight: 'bold',
-		color: '#1F2937',
+		fontWeight: '500',
+		color: '#1A1A1A',
+		flex: 1,
 	},
 	dateRange: {
-		fontSize: 9,
-		color: '#6B7280',
-	},
-	companyInfo: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		marginBottom: 6,
+		fontSize: 10,
+		color: '#666666',
+		textAlign: 'right',
 	},
 	company: {
 		fontSize: 10,
 		fontWeight: 'bold',
-		color: '#374151',
-	},
-	location: {
-		fontSize: 9,
-		color: '#6B7280',
+		color: '#666666',
+		marginBottom: 6,
 	},
 	description: {
-		fontSize: 9,
+		fontSize: 11,
 		lineHeight: 1.5,
 		color: '#4B5563',
 		marginBottom: 4,
+		textAlign: 'justify',
 	},
 	achievements: {
 		marginTop: 6,
 	},
 	achievement: {
-		fontSize: 8,
+		fontSize: 10,
 		lineHeight: 1.4,
 		color: '#374151',
 		marginBottom: 3,
@@ -111,16 +102,17 @@ const styles = StyleSheet.create({
 	skillsContainer: {
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		gap: 8,
+		gap: 6,
 	},
 	skillChip: {
 		backgroundColor: '#F3F4F6',
 		borderRadius: 12,
 		paddingHorizontal: 10,
 		paddingVertical: 4,
-		fontSize: 8,
+		fontSize: 9,
 		color: '#374151',
 		marginBottom: 4,
+		marginRight: 6,
 	},
 	technicalSkillsGrid: {
 		flexDirection: 'row',
@@ -130,48 +122,53 @@ const styles = StyleSheet.create({
 	technicalSkillCategory: {
 		flex: 1,
 		minWidth: '45%',
-		marginBottom: 10,
+		marginBottom: 12,
 	},
 	categoryTitle: {
-		fontSize: 9,
+		fontSize: 10,
 		fontWeight: 'bold',
 		color: '#374151',
 		marginBottom: 4,
 	},
 	categoryContent: {
-		fontSize: 8,
+		fontSize: 10,
 		color: '#4B5563',
 		lineHeight: 1.4,
 	},
 	languageItem: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginBottom: 4,
+		marginBottom: 6,
+		alignItems: 'center',
 	},
 	languageName: {
-		fontSize: 9,
+		fontSize: 10,
+		fontWeight: 'bold',
 		color: '#374151',
 	},
-	languageLevel: {
-		fontSize: 8,
+	languageProficiency: {
+		fontSize: 10,
 		color: '#6B7280',
 	},
 	educationItem: {
-		marginBottom: 10,
+		marginBottom: 12,
 	},
 	educationHeader: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginBottom: 2,
+		alignItems: 'flex-start',
+		marginBottom: 4,
 	},
 	degree: {
-		fontSize: 10,
-		fontWeight: 'bold',
-		color: '#1F2937',
+		fontSize: 12,
+		fontWeight: '500',
+		color: '#1A1A1A',
+		flex: 1,
 	},
 	institution: {
-		fontSize: 9,
-		color: '#374151',
+		fontSize: 10,
+		color: '#666666',
+		marginBottom: 2,
 	},
 });
 
@@ -203,7 +200,7 @@ interface PDFGeneratorProps {
 	fileName?: string;
 }
 
-// PDF Document Component
+// PDF Document Component with proper page break handling
 const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResumeData | null; useOptimized?: boolean }> = ({
 	data,
 	optimizedData,
@@ -234,8 +231,8 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 	return (
 		<Document>
 			<Page size="A4" style={styles.page}>
-				{/* Header */}
-				<View style={styles.header}>
+				{/* Header - unwrappable section */}
+				<View style={styles.header} wrap={false}>
 					<Text style={styles.name}>{displayData.name || 'Namn'}</Text>
 					<View style={styles.contactInfo}>
 						{displayData.email && (
@@ -250,9 +247,9 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 					</View>
 				</View>
 
-				{/* Profile Summary */}
+				{/* Profile Summary - unwrappable section */}
 				{displayData.summary && (
-					<View style={styles.section}>
+					<View style={styles.section} wrap={false}>
 						<Text style={styles.sectionTitle}>
 							{useOptimized ? 'Profil' : 'Professionell sammanfattning'}
 						</Text>
@@ -260,12 +257,12 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 					</View>
 				)}
 
-				{/* Work Experience */}
+				{/* Work Experience - each item unwrappable */}
 				{displayData.experience && displayData.experience.length > 0 && (
 					<View style={styles.section}>
 						<Text style={styles.sectionTitle}>Arbetslivserfarenhet</Text>
 						{displayData.experience.map((exp, index) => (
-							<View key={index} style={styles.experienceItem}>
+							<View key={index} style={styles.experienceItem} wrap={false}>
 								<View style={styles.experienceHeader}>
 									<Text style={styles.jobTitle}>{exp.title}</Text>
 									<Text style={styles.dateRange}>{exp.startDate} - {exp.endDate}</Text>
@@ -284,12 +281,12 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 					</View>
 				)}
 
-				{/* Education */}
+				{/* Education - each item unwrappable */}
 				{displayData.education && displayData.education.length > 0 && (
 					<View style={styles.section}>
 						<Text style={styles.sectionTitle}>Utbildning</Text>
 						{displayData.education.map((edu, index) => (
-							<View key={index} style={styles.educationItem}>
+							<View key={index} style={styles.educationItem} wrap={false}>
 								<View style={styles.educationHeader}>
 									<Text style={styles.degree}>{edu.degree}</Text>
 									<Text style={styles.dateRange}>{edu.startDate} - {edu.endDate}</Text>
@@ -300,9 +297,9 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 					</View>
 				)}
 
-				{/* Core Competencies/Skills */}
+				{/* Core Competencies/Skills - unwrappable section */}
 				{displayData.skills && displayData.skills.length > 0 && (
-					<View style={styles.section}>
+					<View style={styles.section} wrap={false}>
 						<Text style={styles.sectionTitle}>
 							{useOptimized ? 'Kärnkompetenser' : 'Färdigheter'}
 						</Text>
@@ -314,9 +311,9 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 					</View>
 				)}
 
-				{/* Technical Skills - Only for optimized data */}
+				{/* Technical Skills - unwrappable section for optimized data */}
 				{useOptimized && optimizedData?.technicalSkills && (
-					<View style={styles.section}>
+					<View style={styles.section} wrap={false}>
 						<Text style={styles.sectionTitle}>Tekniska färdigheter</Text>
 						<View style={styles.technicalSkillsGrid}>
 							{optimizedData.technicalSkills.programmingLanguages && optimizedData.technicalSkills.programmingLanguages.length > 0 && (
@@ -347,25 +344,25 @@ const ResumeDocument: React.FC<{ data: ResumeData; optimizedData?: OptimizedResu
 					</View>
 				)}
 
-				{/* Languages - Only for optimized data */}
+				{/* Languages - unwrappable section for optimized data */}
 				{useOptimized && optimizedData?.languages && optimizedData.languages.length > 0 && (
-					<View style={styles.section}>
+					<View style={styles.section} wrap={false}>
 						<Text style={styles.sectionTitle}>Språk</Text>
 						{optimizedData.languages.map((lang, index) => (
 							<View key={index} style={styles.languageItem}>
 								<Text style={styles.languageName}>{lang.language}</Text>
-								<Text style={styles.languageLevel}>{lang.proficiency}</Text>
+								<Text style={styles.languageProficiency}>{lang.proficiency}</Text>
 							</View>
 						))}
 					</View>
 				)}
 
-				{/* Certifications - Only for optimized data */}
+				{/* Certifications - each item unwrappable for optimized data */}
 				{useOptimized && optimizedData?.certifications && optimizedData.certifications.length > 0 && (
 					<View style={styles.section}>
 						<Text style={styles.sectionTitle}>Certifieringar</Text>
 						{optimizedData.certifications.map((cert, index) => (
-							<View key={index} style={styles.educationItem}>
+							<View key={index} style={styles.educationItem} wrap={false}>
 								<View style={styles.educationHeader}>
 									<Text style={styles.degree}>{cert.name}</Text>
 									<Text style={styles.dateRange}>{cert.date}</Text>
