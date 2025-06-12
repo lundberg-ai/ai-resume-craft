@@ -27,24 +27,6 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`;
   }, []);
 
-  // Show dynamic character count feedback when text is entered manually
-  useEffect(() => {
-    if (textContent.trim().length > 0 && activeTab === "text") {
-      // Debounce the toast to avoid spam - only show after user stops typing
-      const timeoutId = setTimeout(() => {
-        const wordCount = textContent.trim().split(/\s+/).filter(word => word.length > 0).length;
-        toast({
-          title: "Text inmatad",
-          description: `${textContent.length} tecken, ${wordCount} ord extraherade`,
-          duration: 2000,
-        });
-        console.log('Manual text input:', textContent);
-      }, 1000); // Wait 1 second after user stops typing
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [textContent, activeTab, toast]);
-
   const removeFile = () => {
     setFile(null);
     setExtractedPDFText("");
@@ -109,13 +91,6 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
         const extractedText = await extractTextFromPDF(selectedFile);
         setExtractedPDFText(extractedText);
         console.log('Extracted PDF text:', extractedText);
-
-        // Show quick feedback to user
-        toast({
-          title: "PDF-text extraherad",
-          description: `Extraherade ${extractedText.length} tecken från PDF:en`,
-          duration: 2000,
-        });
       } catch (error) {
         console.error('Error extracting text from PDF:', error);
         toast({
@@ -183,6 +158,16 @@ const ResumeUploader: React.FC<ResumeUploaderProps> = ({ onUploadComplete }) => 
       const parsedResumeData = ResumeTextParser.parseResumeText(resumeText);
 
       console.log('✅ Parsed resume data from actual text:', parsedResumeData);
+
+      // Calculate statistics for success message
+      const wordCount = resumeText.trim().split(/\s+/).filter(word => word.length > 0).length;
+      const charCount = resumeText.length;
+
+      toast({
+        title: "CV bearbetat!",
+        description: `${charCount} tecken, ${wordCount} ord extraherade från ditt CV`,
+        duration: 3000,
+      });
 
       setIsProcessing(false);
       onUploadComplete(parsedResumeData);

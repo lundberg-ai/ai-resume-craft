@@ -44,10 +44,6 @@ const Index: React.FC = () => {
 
   const handleResumeUpload = (data: ResumeData) => {
     setResumeData(data);
-    toast({
-      title: "CV uppladdat",
-      description: "Vi har extraherat information från ditt CV.",
-    });
     setActiveStep("job");
   };
 
