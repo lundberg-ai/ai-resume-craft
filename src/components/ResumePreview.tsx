@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Edit, Eye, EyeOff, Download } from 'lucide-react';
+import { Edit, Eye, EyeOff, Download, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { OptimizedResumeData } from '@/types/optimizedResume';
 import PDFGenerator from '@/components/PDFGenerator';
+import { useToast } from "@/hooks/use-toast";
 
 interface ResumeData {
   name?: string;
@@ -47,6 +48,7 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
   onUpdate,
   onDownload
 }) => {
+  const { toast } = useToast();
   const [editMode, setEditMode] = useState<boolean>(false);
   const [showOptimized, setShowOptimized] = useState<boolean>(!!optimizedData);
 
@@ -115,11 +117,30 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
       console.log('💡 PDF generation will be implemented here');
       console.log('📊 Data structure ready for react-pdf:', displayData);
     }
-  };
-
-  const handleSaveEdit = () => {
+  }; const handleSaveEdit = () => {
+    // Always update the base data for now since the parent expects ResumeData format
     onUpdate(editableData);
     setEditMode(false);
+
+    toast({
+      title: "Ändringar sparade!",
+      description: "Dina redigeringar har sparats och visas nu i förhandsvisningen.",
+      duration: 3000,
+    });
+
+    console.log('✅ Changes saved to resume data');
+  };
+
+  const handleCancelEdit = () => {
+    // Reset to current data (discard changes)
+    setEditableData(getEditableData());
+    setEditMode(false);
+
+    toast({
+      title: "Redigering avbruten",
+      description: "Alla ändringar har återställts.",
+      duration: 2000,
+    });
   };
 
   const handleDataChange = (field: string, value: string) => {
@@ -218,14 +239,14 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setEditMode(!editMode)}
+            onClick={editMode ? handleCancelEdit : () => setEditMode(!editMode)}
             disabled={optimizedData && !showOptimized}
             className={optimizedData && !showOptimized ? "opacity-50 cursor-not-allowed" : ""}
           >
             {editMode ? (
               <>
                 <EyeOff className="mr-2 h-4 w-4" />
-                Visningsläge
+                Avbryt redigering
               </>
             ) : (
               <>
@@ -234,25 +255,28 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
               </>
             )}
           </Button>
-          <Button
-            variant="default"
-            size="sm"
-            className={`bg-neon-purple hover:bg-neon-purple/80 ${optimizedData && !showOptimized ? "opacity-50 cursor-not-allowed" : ""}`}
-            disabled={optimizedData && !showOptimized}
-          >
-            <PDFGenerator
-              data={data}
-              optimizedData={optimizedData}
-              useOptimized={showOptimized && !!optimizedData}
-            />
-          </Button>
+          {!editMode && (
+            <Button
+              variant="default"
+              size="sm"
+              className={`bg-neon-purple hover:bg-neon-purple/80 ${optimizedData && !showOptimized ? "opacity-50 cursor-not-allowed" : ""}`}
+              disabled={optimizedData && !showOptimized}
+            >
+              <PDFGenerator
+                data={data}
+                optimizedData={optimizedData}
+                useOptimized={showOptimized && !!optimizedData}
+              />
+            </Button>
+          )}
           {editMode && (
             <Button
               size="sm"
               onClick={handleSaveEdit}
+              className="bg-green-600 hover:bg-green-700 text-white"
             >
-              <Eye className="mr-2 h-4 w-4" />
-              Spara & förhandsgranska
+              <Save className="mr-2 h-4 w-4" />
+              Spara ändringar
             </Button>
           )}
         </div>
