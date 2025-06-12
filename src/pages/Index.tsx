@@ -4,6 +4,7 @@ import Layout from '@/components/Layout';
 import ResumeUploader from '@/components/ResumeUploader';
 import JobDescriptionInput from '@/components/JobDescriptionInput';
 import ResumePreview from '@/components/ResumePreview';
+import PDFGenerator from '@/components/PDFGenerator';
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
@@ -254,12 +255,13 @@ const Index: React.FC = () => {
             <TabsContent value="preview" className="animate-fade-in">
               <div className="space-y-8">
                 <div className="flex justify-center">
-                  <Button
-                    onClick={handleResumeDownload}
-                    className="bg-neon-purple hover:bg-neon-purple/80 text-white uppercase font-bold tracking-wide rounded-none shadow-[5px_5px_0_rgba(0,0,0,0.5)] px-8"
-                  >
+                  <Button className="bg-neon-purple hover:bg-neon-purple/80 text-white uppercase font-bold tracking-wide rounded-none shadow-[5px_5px_0_rgba(0,0,0,0.5)] px-8">
                     <Download className="mr-2 h-4 w-4" />
-                    Ladda ner CV
+                    <PDFGenerator
+                      data={resumeData}
+                      optimizedData={optimizedResumeData}
+                      useOptimized={!!optimizedResumeData}
+                    />
                   </Button>
                 </div>
                 <div className="max-w-4xl mx-auto">

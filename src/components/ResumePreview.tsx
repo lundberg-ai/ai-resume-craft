@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { OptimizedResumeData } from '@/types/optimizedResume';
+import PDFGenerator from '@/components/PDFGenerator';
 
 interface ResumeData {
   name?: string;
@@ -201,11 +202,13 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
           <Button
             variant="default"
             size="sm"
-            onClick={handleDownload}
             className="bg-neon-purple hover:bg-neon-purple/80"
           >
-            <Download className="mr-2 h-4 w-4" />
-            Ladda ner PDF
+            <PDFGenerator
+              data={data}
+              optimizedData={optimizedData}
+              useOptimized={showOptimized && !!optimizedData}
+            />
           </Button>
           {editMode && (
             <Button
@@ -219,291 +222,293 @@ const ResumePreview: React.FC<ResumePreviewProps> = ({
         </div>
       </div>
 
-      <Card className="p-0 overflow-hidden">
-        <div className={cn(`resume-container theme-${theme}`)} style={customStyle}>
-          {editMode ? (
-            // Edit Mode
-            <div className="space-y-6">
-              <div className={getHeaderClass()}>
-                <div className="space-y-2">                  <Input
-                  value={editableData.name || ''}
-                  onChange={(e) => handleDataChange('name', e.target.value)}
-                  placeholder="Ditt namn"
-                  className="text-2xl font-bold border-none px-0 h-auto"
-                />
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                    <Input
-                      value={editableData.email || ''}
-                      onChange={(e) => handleDataChange('email', e.target.value)}
-                      placeholder="email@example.com"
-                      className="border-none px-0 h-auto"
-                    />
-                    <Input
-                      value={editableData.phone || ''}
-                      onChange={(e) => handleDataChange('phone', e.target.value)}
-                      placeholder="Telefon"
-                      className="border-none px-0 h-auto"
-                    />
-                    <Input
-                      value={editableData.address || ''}
-                      onChange={(e) => handleDataChange('address', e.target.value)}
-                      placeholder="Ort"
-                      className="border-none px-0 h-auto"
-                    />
+      <div className="flex justify-center"> {/* Center the A4 container */}
+        <Card className="p-0 overflow-hidden shadow-xl border-2 border-gray-200">
+          <div className={cn(`resume-container theme-${theme}`)} style={customStyle}>
+            {editMode ? (
+              // Edit Mode
+              <div className="space-y-6">
+                <div className={getHeaderClass()}>
+                  <div className="space-y-2">                  <Input
+                    value={editableData.name || ''}
+                    onChange={(e) => handleDataChange('name', e.target.value)}
+                    placeholder="Ditt namn"
+                    className="text-2xl font-bold border-none px-0 h-auto"
+                  />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                      <Input
+                        value={editableData.email || ''}
+                        onChange={(e) => handleDataChange('email', e.target.value)}
+                        placeholder="email@example.com"
+                        className="border-none px-0 h-auto"
+                      />
+                      <Input
+                        value={editableData.phone || ''}
+                        onChange={(e) => handleDataChange('phone', e.target.value)}
+                        placeholder="Telefon"
+                        className="border-none px-0 h-auto"
+                      />
+                      <Input
+                        value={editableData.address || ''}
+                        onChange={(e) => handleDataChange('address', e.target.value)}
+                        placeholder="Ort"
+                        className="border-none px-0 h-auto"
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Professionell sammanfattning</h2>
-                <Textarea
-                  value={editableData.summary || ''}
-                  onChange={(e) => handleDataChange('summary', e.target.value)}
-                  placeholder="Skriv en professionell sammanfattning"
-                  className="min-h-[100px]"
-                />
-              </div>
+                <div>
+                  <h2 className="text-lg font-semibold mb-2">Professionell sammanfattning</h2>
+                  <Textarea
+                    value={editableData.summary || ''}
+                    onChange={(e) => handleDataChange('summary', e.target.value)}
+                    placeholder="Skriv en professionell sammanfattning"
+                    className="min-h-[100px]"
+                  />
+                </div>
 
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Arbetslivserfarenhet</h2>
-                {editableData.experience?.map((exp, index) => (
-                  <div key={index} className="mb-4 border p-3 rounded-md">                    <div className="grid grid-cols-2 gap-2 mb-2">
-                    <Input
-                      value={exp.title}
-                      onChange={(e) => handleExperienceChange(index, 'title', e.target.value)}
-                      placeholder="Jobbtitel"
-                    />
-                    <Input
-                      value={exp.company}
-                      onChange={(e) => handleExperienceChange(index, 'company', e.target.value)}
-                      placeholder="Företag"
-                    />
-                  </div>
-                    <div className="grid grid-cols-3 gap-2 mb-2">
+                <div>
+                  <h2 className="text-lg font-semibold mb-2">Arbetslivserfarenhet</h2>
+                  {editableData.experience?.map((exp, index) => (
+                    <div key={index} className="mb-4 border p-3 rounded-md">                    <div className="grid grid-cols-2 gap-2 mb-2">
                       <Input
-                        value={exp.location}
-                        onChange={(e) => handleExperienceChange(index, 'location', e.target.value)}
-                        placeholder="Ort"
+                        value={exp.title}
+                        onChange={(e) => handleExperienceChange(index, 'title', e.target.value)}
+                        placeholder="Jobbtitel"
                       />
                       <Input
-                        value={exp.startDate}
-                        onChange={(e) => handleExperienceChange(index, 'startDate', e.target.value)}
-                        placeholder="Startdatum"
-                      />
-                      <Input
-                        value={exp.endDate}
-                        onChange={(e) => handleExperienceChange(index, 'endDate', e.target.value)}
-                        placeholder="Slutdatum"
+                        value={exp.company}
+                        onChange={(e) => handleExperienceChange(index, 'company', e.target.value)}
+                        placeholder="Företag"
                       />
                     </div>
-                    <Textarea
-                      value={exp.description}
-                      onChange={(e) => handleExperienceChange(index, 'description', e.target.value)}
-                      placeholder="Beskrivning"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Utbildning</h2>
-                {editableData.education?.map((edu, index) => (
-                  <div key={index} className="mb-4 border p-3 rounded-md">
-                    <div className="grid grid-cols-2 gap-2 mb-2">
-                      <Input
-                        value={edu.degree}
-                        onChange={(e) => handleEducationChange(index, 'degree', e.target.value)}
-                        placeholder="Examen"
-                      />
-                      <Input
-                        value={edu.institution}
-                        onChange={(e) => handleEducationChange(index, 'institution', e.target.value)}
-                        placeholder="Institution"
-                      />
-                    </div>
-                    <div className="grid grid-cols-3 gap-2">
-                      <Input
-                        value={edu.location}
-                        onChange={(e) => handleEducationChange(index, 'location', e.target.value)}
-                        placeholder="Ort"
-                      />
-                      <Input
-                        value={edu.startDate}
-                        onChange={(e) => handleEducationChange(index, 'startDate', e.target.value)}
-                        placeholder="Startdatum"
-                      />
-                      <Input
-                        value={edu.endDate}
-                        onChange={(e) => handleEducationChange(index, 'endDate', e.target.value)}
-                        placeholder="Slutdatum"
+                      <div className="grid grid-cols-3 gap-2 mb-2">
+                        <Input
+                          value={exp.location}
+                          onChange={(e) => handleExperienceChange(index, 'location', e.target.value)}
+                          placeholder="Ort"
+                        />
+                        <Input
+                          value={exp.startDate}
+                          onChange={(e) => handleExperienceChange(index, 'startDate', e.target.value)}
+                          placeholder="Startdatum"
+                        />
+                        <Input
+                          value={exp.endDate}
+                          onChange={(e) => handleExperienceChange(index, 'endDate', e.target.value)}
+                          placeholder="Slutdatum"
+                        />
+                      </div>
+                      <Textarea
+                        value={exp.description}
+                        onChange={(e) => handleExperienceChange(index, 'description', e.target.value)}
+                        placeholder="Beskrivning"
                       />
                     </div>
-                  </div>
-                ))}
-              </div>
-
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Färdigheter</h2>
-                <div className="flex flex-wrap gap-2">
-                  {editableData.skills?.map((skill, index) => (
-                    <Input
-                      key={index}
-                      value={skill}
-                      onChange={(e) => handleSkillChange(index, e.target.value)}
-                      placeholder="Färdighet"
-                      className="w-auto"
-                    />
                   ))}
                 </div>
-              </div>
-            </div>
-          ) : (
-            // Preview Mode - Shows optimized data if available
-            <div className="space-y-6">
-              {showOptimized && optimizedData && (
-                <div className="mb-4 p-3 bg-neon-purple/10 border border-neon-purple/20 rounded-md">
-                  <p className="text-sm font-medium text-neon-purple">
-                    ✨ Detta är den optimerade versionen av ditt CV, anpassad för jobbeskrivningen
-                  </p>
-                </div>
-              )}
-
-              <div className={getHeaderClass()}>
-                <h1 className="text-2xl font-bold">{displayData.name}</h1>
-                <div className="flex flex-wrap gap-x-4 text-sm">
-                  {displayData.email && <p>{displayData.email}</p>}
-                  {displayData.phone && <p>{displayData.phone}</p>}
-                  {displayData.address && <p>{displayData.address}</p>}
-                  {showOptimized && optimizedData?.personalInfo.linkedin && (
-                    <p>{optimizedData.personalInfo.linkedin}</p>
-                  )}
-                </div>
-              </div>
-
-              {displayData.summary && (
                 <div>
-                  <h2 className="text-lg font-semibold mb-2">
-                    {showOptimized ? 'Profil' : 'Professionell sammanfattning'}
-                  </h2>
-                  <p className="text-sm leading-relaxed">{displayData.summary}</p>
+                  <h2 className="text-lg font-semibold mb-2">Utbildning</h2>
+                  {editableData.education?.map((edu, index) => (
+                    <div key={index} className="mb-4 border p-3 rounded-md">
+                      <div className="grid grid-cols-2 gap-2 mb-2">
+                        <Input
+                          value={edu.degree}
+                          onChange={(e) => handleEducationChange(index, 'degree', e.target.value)}
+                          placeholder="Examen"
+                        />
+                        <Input
+                          value={edu.institution}
+                          onChange={(e) => handleEducationChange(index, 'institution', e.target.value)}
+                          placeholder="Institution"
+                        />
+                      </div>
+                      <div className="grid grid-cols-3 gap-2">
+                        <Input
+                          value={edu.location}
+                          onChange={(e) => handleEducationChange(index, 'location', e.target.value)}
+                          placeholder="Ort"
+                        />
+                        <Input
+                          value={edu.startDate}
+                          onChange={(e) => handleEducationChange(index, 'startDate', e.target.value)}
+                          placeholder="Startdatum"
+                        />
+                        <Input
+                          value={edu.endDate}
+                          onChange={(e) => handleEducationChange(index, 'endDate', e.target.value)}
+                          placeholder="Slutdatum"
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              )}
 
-              {displayData.experience && displayData.experience.length > 0 && (
                 <div>
-                  <h2 className="text-lg font-semibold mb-3">Arbetslivserfarenhet</h2>
-                  {displayData.experience.map((exp, index) => (
-                    <div key={index} className="mb-4">
-                      <div className="flex justify-between">
-                        <h3 className="font-medium">{exp.title}</h3>
-                        <span className="text-sm">{exp.startDate} - {exp.endDate}</span>
+                  <h2 className="text-lg font-semibold mb-2">Färdigheter</h2>
+                  <div className="flex flex-wrap gap-2">
+                    {editableData.skills?.map((skill, index) => (
+                      <Input
+                        key={index}
+                        value={skill}
+                        onChange={(e) => handleSkillChange(index, e.target.value)}
+                        placeholder="Färdighet"
+                        className="w-auto"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              // Preview Mode - Shows optimized data if available
+              <div className="space-y-6">
+                {showOptimized && optimizedData && (
+                  <div className="mb-4 p-3 bg-neon-purple/10 border border-neon-purple/20 rounded-md">
+                    <p className="text-sm font-medium text-neon-purple">
+                      ✨ Detta är den optimerade versionen av ditt CV, anpassad för jobbeskrivningen
+                    </p>
+                  </div>
+                )}
+
+                <div className={getHeaderClass()}>
+                  <h1 className="text-2xl font-bold">{displayData.name}</h1>
+                  <div className="flex flex-wrap gap-x-4 text-sm">
+                    {displayData.email && <p>{displayData.email}</p>}
+                    {displayData.phone && <p>{displayData.phone}</p>}
+                    {displayData.address && <p>{displayData.address}</p>}
+                    {showOptimized && optimizedData?.personalInfo.linkedin && (
+                      <p>{optimizedData.personalInfo.linkedin}</p>
+                    )}
+                  </div>
+                </div>
+
+                {displayData.summary && (
+                  <div>
+                    <h2 className="text-lg font-semibold mb-2">
+                      {showOptimized ? 'Profil' : 'Professionell sammanfattning'}
+                    </h2>
+                    <p className="text-sm leading-relaxed">{displayData.summary}</p>
+                  </div>
+                )}
+
+                {displayData.experience && displayData.experience.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3">Arbetslivserfarenhet</h2>
+                    {displayData.experience.map((exp, index) => (
+                      <div key={index} className="mb-4">
+                        <div className="flex justify-between">
+                          <h3 className="font-medium">{exp.title}</h3>
+                          <span className="text-sm">{exp.startDate} - {exp.endDate}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <p>{exp.company}</p>
+                          <p>{exp.location}</p>
+                        </div>
+                        <p className="mt-1 text-sm leading-relaxed">{exp.description}</p>
+                        {showOptimized && optimizedData?.workExperience[index]?.keyAchievements && (
+                          <div className="mt-2">
+                            <ul className="list-disc list-inside text-xs space-y-1">
+                              {optimizedData.workExperience[index].keyAchievements.map((achievement, i) => (
+                                <li key={i}>{achievement}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
-                      <div className="flex justify-between text-sm">
-                        <p>{exp.company}</p>
-                        <p>{exp.location}</p>
+                    ))}
+                  </div>
+                )}
+
+                {displayData.education && displayData.education.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3">Utbildning</h2>
+                    {displayData.education.map((edu, index) => (
+                      <div key={index} className="mb-3">
+                        <div className="flex justify-between">
+                          <h3 className="font-medium">{edu.degree}</h3>
+                          <span className="text-sm">{edu.startDate} - {edu.endDate}</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <p>{edu.institution}</p>
+                          <p>{edu.location}</p>
+                        </div>
                       </div>
-                      <p className="mt-1 text-sm leading-relaxed">{exp.description}</p>
-                      {showOptimized && optimizedData?.workExperience[index]?.keyAchievements && (
-                        <div className="mt-2">
-                          <ul className="list-disc list-inside text-xs space-y-1">
-                            {optimizedData.workExperience[index].keyAchievements.map((achievement, i) => (
-                              <li key={i}>{achievement}</li>
-                            ))}
-                          </ul>
+                    ))}
+                  </div>
+                )}
+
+                {/* Skills Section - Enhanced for optimized data */}
+                {displayData.skills && displayData.skills.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3">
+                      {showOptimized ? 'Kärnkompetenser' : 'Färdigheter'}
+                    </h2>
+                    <div className="flex flex-wrap gap-2">
+                      {displayData.skills.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Technical Skills - Only show for optimized data */}
+                {showOptimized && optimizedData?.technicalSkills && (
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3">Tekniska färdigheter</h2>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      {optimizedData.technicalSkills.programmingLanguages?.length > 0 && (
+                        <div>
+                          <h4 className="font-medium mb-1">Programmeringsspråk</h4>
+                          <p>{optimizedData.technicalSkills.programmingLanguages.join(', ')}</p>
+                        </div>
+                      )}
+                      {optimizedData.technicalSkills.frameworks?.length > 0 && (
+                        <div>
+                          <h4 className="font-medium mb-1">Ramverk</h4>
+                          <p>{optimizedData.technicalSkills.frameworks.join(', ')}</p>
+                        </div>
+                      )}
+                      {optimizedData.technicalSkills.tools?.length > 0 && (
+                        <div>
+                          <h4 className="font-medium mb-1">Verktyg</h4>
+                          <p>{optimizedData.technicalSkills.tools.join(', ')}</p>
+                        </div>
+                      )}
+                      {optimizedData.technicalSkills.other?.length > 0 && (
+                        <div>
+                          <h4 className="font-medium mb-1">Övrigt</h4>
+                          <p>{optimizedData.technicalSkills.other.join(', ')}</p>
                         </div>
                       )}
                     </div>
-                  ))}
-                </div>
-              )}
+                  </div>
+                )}
 
-              {displayData.education && displayData.education.length > 0 && (
-                <div>
-                  <h2 className="text-lg font-semibold mb-3">Utbildning</h2>
-                  {displayData.education.map((edu, index) => (
-                    <div key={index} className="mb-3">
-                      <div className="flex justify-between">
-                        <h3 className="font-medium">{edu.degree}</h3>
-                        <span className="text-sm">{edu.startDate} - {edu.endDate}</span>
-                      </div>
-                      <div className="flex justify-between text-sm">
-                        <p>{edu.institution}</p>
-                        <p>{edu.location}</p>
-                      </div>
+                {/* Languages - Only show for optimized data */}
+                {showOptimized && optimizedData?.languages && optimizedData.languages.length > 0 && (
+                  <div>
+                    <h2 className="text-lg font-semibold mb-3">Språk</h2>
+                    <div className="flex flex-wrap gap-3">
+                      {optimizedData.languages.map((lang, index) => (
+                        <div key={index} className="text-sm">
+                          <span className="font-medium">{lang.language}</span>
+                          <span className="text-muted-foreground"> - {lang.proficiency}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Skills Section - Enhanced for optimized data */}
-              {displayData.skills && displayData.skills.length > 0 && (
-                <div>
-                  <h2 className="text-lg font-semibold mb-3">
-                    {showOptimized ? 'Kärnkompetenser' : 'Färdigheter'}
-                  </h2>
-                  <div className="flex flex-wrap gap-2">
-                    {displayData.skills.map((skill, index) => (
-                      <span
-                        key={index}
-                        className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm"
-                      >
-                        {skill}
-                      </span>
-                    ))}
                   </div>
-                </div>
-              )}
-
-              {/* Technical Skills - Only show for optimized data */}
-              {showOptimized && optimizedData?.technicalSkills && (
-                <div>
-                  <h2 className="text-lg font-semibold mb-3">Tekniska färdigheter</h2>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    {optimizedData.technicalSkills.programmingLanguages?.length > 0 && (
-                      <div>
-                        <h4 className="font-medium mb-1">Programmeringsspråk</h4>
-                        <p>{optimizedData.technicalSkills.programmingLanguages.join(', ')}</p>
-                      </div>
-                    )}
-                    {optimizedData.technicalSkills.frameworks?.length > 0 && (
-                      <div>
-                        <h4 className="font-medium mb-1">Ramverk</h4>
-                        <p>{optimizedData.technicalSkills.frameworks.join(', ')}</p>
-                      </div>
-                    )}
-                    {optimizedData.technicalSkills.tools?.length > 0 && (
-                      <div>
-                        <h4 className="font-medium mb-1">Verktyg</h4>
-                        <p>{optimizedData.technicalSkills.tools.join(', ')}</p>
-                      </div>
-                    )}
-                    {optimizedData.technicalSkills.other?.length > 0 && (
-                      <div>
-                        <h4 className="font-medium mb-1">Övrigt</h4>
-                        <p>{optimizedData.technicalSkills.other.join(', ')}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Languages - Only show for optimized data */}
-              {showOptimized && optimizedData?.languages && optimizedData.languages.length > 0 && (
-                <div>
-                  <h2 className="text-lg font-semibold mb-3">Språk</h2>
-                  <div className="flex flex-wrap gap-3">
-                    {optimizedData.languages.map((lang, index) => (
-                      <div key={index} className="text-sm">
-                        <span className="font-medium">{lang.language}</span>
-                        <span className="text-muted-foreground"> - {lang.proficiency}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </Card>
+                )}
+              </div>
+            )}
+          </div>
+        </Card>
+      </div> {/* End of centering div */}
     </div>
   );
 };

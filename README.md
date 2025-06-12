@@ -1,16 +1,25 @@
 # CVSkaparen - Swedish CV Generation App
 
-A Swedish CV generation application with PDF text extraction, job description analysis, and AI-powered optimization.
+A Swedish AI-powered CV optimization system that takes your resume and a job description, then generates a tailored, professional CV optimized for the specific position.
 
 ## Features
 
-- **PDF Text Extraction**: Upload PDF CVs and automatically extract text content
+- **PDF Text Extraction**: Upload PDF CVs and automatically extract text content with advanced parsing
 - **Manual Text Input**: Paste CV content directly with live character/word counting
+- **AI-Powered Optimization**: Uses Google Gemini AI to analyze and optimize CVs for specific job requirements
 - **Job Description Analysis**: 
-  - Manual text input with feedback
-  - Website URL extraction with AI-powered content parsing
-- **Swedish Interface**: All text and feedback in Swedish
-- **Clean Design**: Simplified, user-friendly interface
+  - Manual text input with intelligent parsing
+  - Website URL extraction with AI-powered content analysis
+- **Smart Matching**: Tailors your CV content to match job requirements and keywords
+- **Professional PDF Output**: Generate publication-ready PDFs with proper A4 formatting
+- **Multiple Themes**: Choose from different professional CV layouts
+- **Structured Data**: Organized sections for experience, skills, education, and achievements
+- **Version Comparison**: Toggle between original and optimized versions
+- **Enhanced Work Experience**: AI-generated key achievements and optimized descriptions
+- **Categorized Technical Skills**: Organized into programming languages, frameworks, tools, etc.
+- **Language Proficiency**: Professional language skill presentations
+- **Certifications**: Integrated certification management
+- **Core Competencies**: Focused skill highlights matching job requirements
 
 ## Project info
 
