@@ -22,11 +22,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <h1 className="text-3xl md:text-4xl font-bold font-display tracking-tight text-foreground relative">
             <span className="text-neon-purple">CV</span>Skaparen
             <div className="absolute -bottom-1 left-0 w-full h-1 bg-neon-purple"></div>
-          </h1>          <div className="flex items-center space-x-4">            <div className="hidden md:flex items-center space-x-8">
-            <nav className="flex space-x-8">
-              <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Mallar</a>
-              <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Priser</a>
-            </nav>
+          </h1>          <div className="flex items-center space-x-4">            <div className="hidden md:flex items-center space-x-8">            <nav className="flex space-x-8">
+            <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide">Mallar</a>
+            <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide">Priser</a>
+          </nav>
             <div className="flex items-center space-x-2">
               <SettingsToggle onClick={() => setSettingsOpen(true)} />
               <ThemeToggle />
@@ -45,11 +44,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <Menu className="h-5 w-5" />
               </Button>
             </div>
-          </div>
-
-          <nav className={`${mobileMenuOpen ? 'flex' : 'hidden'} md:hidden absolute top-full left-0 right-0 bg-background p-4 border-b-2 border-black dark:border-white flex-col space-y-3`}>
-            <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Mallar</a>
-            <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Priser</a>
+          </div>          <nav className={`${mobileMenuOpen ? 'flex' : 'hidden'} md:hidden absolute top-full left-0 right-0 bg-background p-4 border-b-2 border-black dark:border-white flex-col space-y-3`}>
+            <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide">Mallar</a>
+            <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide">Priser</a>
           </nav>
         </div>
       </header>      <main>
