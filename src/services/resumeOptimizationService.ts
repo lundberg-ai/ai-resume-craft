@@ -1,13 +1,13 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { OptimizeResumeRequest, OptimizeResumeResponse, OptimizedResumeData } from '@/types/optimizedResume';
 import { ResumeDataValidator } from '@/utils/resumeDataValidator';
+import { getGeminiApiKey } from '@/utils/apiKeyManager';
 
 export class ResumeOptimizationService {
 	private genAI: GoogleGenerativeAI | null = null;
-
 	constructor() {
-		const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-		if (apiKey && apiKey.trim() !== '') {
+		const apiKey = getGeminiApiKey();
+		if (apiKey) {
 			this.genAI = new GoogleGenerativeAI(apiKey);
 		}
 	}

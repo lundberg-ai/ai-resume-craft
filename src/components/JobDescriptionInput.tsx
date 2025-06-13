@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from "@/hooks/use-toast";
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getGeminiApiKey } from '@/utils/apiKeyManager';
 
 interface JobDescriptionInputProps {
   onSubmit: (description: string) => void;
@@ -297,10 +298,10 @@ const JobDescriptionInput: React.FC<JobDescriptionInputProps> = ({
       if (!isValidJobContent.isValid) {
         throw new Error(isValidJobContent.reason);
       }// Use Gemini AI to extract job description
-      // NOTE: You'll need to add your Gemini API key as an environment variable
-      const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
+      // Check for API key with priority: localStorage first, then environment variable
+      const geminiApiKey = getGeminiApiKey();
 
-      if (!geminiApiKey || geminiApiKey.trim() === '') {
+      if (!geminiApiKey) {
         // Fallback to simple text extraction without AI
         console.log('No Gemini API key found, using basic text extraction');
         return cleanedText;

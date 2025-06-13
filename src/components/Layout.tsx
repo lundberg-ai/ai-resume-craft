@@ -4,6 +4,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Menu, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from '@/components/ThemeToggle';
+import SettingsToggle from '@/components/SettingsToggle';
+import SettingsModal from '@/components/SettingsModal';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +13,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -19,15 +22,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <h1 className="text-3xl md:text-4xl font-bold font-display tracking-tight text-foreground relative">
             <span className="text-neon-purple">CV</span>Skaparen
             <div className="absolute -bottom-1 left-0 w-full h-1 bg-neon-purple"></div>
-          </h1>          <div className="flex items-center space-x-4">
-            <div className="hidden md:flex items-center space-x-8">
-              <nav className="flex space-x-8">
-                <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Mallar</a>
-                <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Priser</a>
-              </nav>
+          </h1>          <div className="flex items-center space-x-4">            <div className="hidden md:flex items-center space-x-8">
+            <nav className="flex space-x-8">
+              <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Mallar</a>
+              <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Priser</a>
+            </nav>
+            <div className="flex items-center space-x-2">
+              <SettingsToggle onClick={() => setSettingsOpen(true)} />
               <ThemeToggle />
             </div>
+          </div>
             <div className="md:hidden flex items-center space-x-4">
+              <SettingsToggle onClick={() => setSettingsOpen(true)} />
               <ThemeToggle />
               <Button
                 variant="ghost"
@@ -46,10 +52,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <a href="#" className="font-medium text-lg hover:text-neon-purple transition-colors duration-200 uppercase tracking-wide border-b-2 border-transparent hover:border-neon-purple pb-1">Priser</a>
           </nav>
         </div>
-      </header>
-      <main>
+      </header>      <main>
         {children}
       </main>
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
       <footer className="border-t-2 border-black dark:border-white bg-background py-10 mt-16">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
