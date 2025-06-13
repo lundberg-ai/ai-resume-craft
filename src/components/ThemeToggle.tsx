@@ -7,20 +7,19 @@ import { useTheme } from '@/contexts/ThemeContext';
 const ThemeToggle: React.FC = () => {
 	const { theme, toggleTheme } = useTheme();
 
-	return (
-		<Button
-			variant="ghost"
-			size="icon"
-			onClick={toggleTheme}
-			className="border-2 border-black dark:border-white hover:border-neon-purple dark:hover:border-neon-purple transition-colors"
-			aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-		>
-			{theme === 'light' ? (
-				<Moon className="h-5 w-5" />
-			) : (
-				<Sun className="h-5 w-5" />
-			)}
-		</Button>
+	return (<Button
+		variant="ghost"
+		size="icon"
+		onClick={toggleTheme}
+		className="hover:bg-neon-purple/10 transition-colors"
+		aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+	>
+		{theme === 'light' ? (
+			<Moon className="h-5 w-5" />
+		) : (
+			<Sun className="h-5 w-5" />
+		)}
+	</Button>
 	);
 };
 

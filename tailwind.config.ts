@@ -115,14 +115,13 @@ export default {
 					'100%': {
 						'background-position': '500px 0'
 					}
-				},
-				'pulse-glow': {
+				}, 'pulse-glow': {
 					'0%, 100%': {
-						'opacity': 0.8,
+						'opacity': '0.8',
 						'box-shadow': '0 0 20px rgba(155, 135, 245, 0.2)'
 					},
 					'50%': {
-						'opacity': 1,
+						'opacity': '1',
 						'box-shadow': '0 0 30px rgba(155, 135, 245, 0.4)'
 					}
 				},
