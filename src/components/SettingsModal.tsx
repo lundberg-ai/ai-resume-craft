@@ -49,10 +49,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, onOpenChange }) => 
 
 	const hasLocalKey = localStorage.getItem('gemini_api_key');
 	const hasEnvKey = import.meta.env.VITE_GEMINI_API_KEY;
-
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-md">
+			<DialogContent className="sm:max-w-md bg-white dark:bg-[#212121]">
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-2">
 						Inställningar
