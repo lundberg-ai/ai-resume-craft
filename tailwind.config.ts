@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -166,7 +167,8 @@ export default {
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-				'hero-brutalist': 'linear-gradient(to bottom right, #FFFFFF, #F8F8F8, #FFFFFF)',
+				'hero-brutalist-light': 'linear-gradient(to bottom right, #FFFFFF, #F8F8F8, #FFFFFF)',
+				'hero-brutalist-dark': 'linear-gradient(to bottom right, #0F0F0F, #1A1A1A, #0F0F0F)',
 			}
 		}
 	},
